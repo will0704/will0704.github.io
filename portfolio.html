@@ -61,6 +61,12 @@
 			const updateProgress = () => { const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight; progress.firstElementChild.style.transform = `scaleX(${scrollableHeight ? window.scrollY / scrollableHeight : 0})`; };
 			window.addEventListener('scroll', updateProgress, { passive: true });
 			updateProgress();
+			if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
+				document.addEventListener('pointermove', (event) => {
+					document.body.style.setProperty('--spot-x', `${event.clientX}px`);
+					document.body.style.setProperty('--spot-y', `${event.clientY}px`);
+				});
+			}
 		</script>
 	</body>
 </html>

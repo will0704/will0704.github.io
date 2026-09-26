@@ -104,6 +104,12 @@
 			};
 			window.addEventListener('scroll', updateProgress, { passive: true });
 			updateProgress();
+			if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
+				document.addEventListener('pointermove', (event) => {
+					document.body.style.setProperty('--spot-x', `${event.clientX}px`);
+					document.body.style.setProperty('--spot-y', `${event.clientY}px`);
+				});
+			}
 		</script>
 	</body>
 </html>
