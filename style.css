@@ -97,7 +97,28 @@
  .card-top { color: var(--soft); display: flex; justify-content: space-between; }
  .card h2 { font-size: clamp(2rem, 3.5vw, 3rem); margin: auto 0 20px; }
  .card p { color: var(--soft); font-size: .88rem; max-width: 310px; }
- .card-link { border-top: 1px solid var(--line); margin-top: 32px; padding-top: 14px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; min-height: 27px; }
+.card-tags span { border: 1px solid var(--line); color: var(--muted-paper); font-family: "DM Mono", monospace; font-size: .58rem; padding: 3px 6px; text-transform: uppercase; }
+.card-link { border-top: 1px solid var(--line); margin-top: auto; padding-top: 14px; }
+
+.cv-details { border-top: 1px solid var(--line); padding: 95px 0 120px; }
+.experience-list { border-top: 1px solid var(--line); }
+.experience-item { border-bottom: 1px solid var(--line); display: grid; gap: 8%; grid-template-columns: .55fr 1.45fr; padding: 34px 0; }
+.experience-meta { color: var(--soft); display: flex; flex-direction: column; font-family: "DM Mono", monospace; font-size: .68rem; gap: 8px; text-transform: uppercase; }
+.experience-meta span:first-child { color: var(--paper); }
+.experience-item h2 { font-size: clamp(1.8rem, 3vw, 2.7rem); margin-bottom: 15px; }
+.experience-item p, .profile-grid p, .skills-grid p { color: var(--soft); font-size: .88rem; max-width: 680px; }
+.tech-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
+.tech-list span { border: 1px solid var(--line); color: var(--muted-paper); font-family: "DM Mono", monospace; font-size: .62rem; padding: 4px 8px; text-transform: uppercase; }
+.profile-grid { display: grid; gap: 8%; grid-template-columns: 1fr 1fr; padding-top: 75px; }
+.profile-grid h2 { font-size: 2rem; margin: 18px 0 14px; }
+.profile-grid ul { list-style: none; margin-top: 18px; }
+.profile-grid li { border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; padding: 12px 0; }
+.profile-grid li span { color: var(--soft); font-family: "DM Mono", monospace; font-size: .68rem; }
+.skills-block { border-top: 1px solid var(--line); margin-top: 75px; padding-top: 28px; }
+.skills-grid { display: grid; gap: 24px 8%; grid-template-columns: 1fr 1fr; margin-top: 24px; }
+.skills-grid span { color: var(--paper); font-family: "DM Mono", monospace; font-size: .68rem; text-transform: uppercase; }
+.skills-grid p { margin-top: 7px; }
  
  .contacts { border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1.4fr .8fr; padding: 105px 0 115px; }
  .contacts h2 { font-size: clamp(3rem, 6vw, 6rem); grid-column: 2 / 4; margin-top: -10px; }
@@ -125,6 +146,11 @@
      .section-note { margin-top: 20px; }
      .card-container { grid-template-columns: 1fr; }
      .card { min-height: 300px; }
+    .cv-details { padding: 75px 0 90px; }
+    .experience-item, .profile-grid, .skills-grid { display: block; }
+    .experience-meta { flex-direction: row; justify-content: space-between; margin-bottom: 25px; }
+    .profile-grid > div + div { margin-top: 48px; }
+    .skills-grid > div + div { margin-top: 24px; }
      .contacts { display: block; padding: 75px 0 85px; }
      .contacts h2 { font-size: clamp(3.3rem, 15vw, 5.5rem); margin-top: 35px; }
      .contact-details { margin-top: 55px; }
