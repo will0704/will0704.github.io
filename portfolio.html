@@ -40,5 +40,24 @@
 			<section id="contacts" class="contacts"><p class="eyebrow">03 / Say hello</p><h2>Have a good idea?<br><em>Let's build it well.</em></h2><div class="contact-details"><a href="mailto:bwillanthony@gmail.com">bwillanthony@gmail.com</a><span>+63 945 310 9171 · Pangasinan, PH</span><div><a href="https://www.linkedin.com/in/will-barillo">LinkedIn ↗</a><a href="https://github.com/will0704">GitHub ↗</a></div></div></section>
 		</main>
 		<footer><span>© 2024 Will Anthony Barillo</span><span>Built with curiosity.</span></footer>
+		<script>
+			document.documentElement.classList.add('js');
+			const progress = document.createElement('div');
+			progress.className = 'scroll-progress';
+			progress.setAttribute('aria-hidden', 'true');
+			progress.innerHTML = '<span></span>';
+			document.body.prepend(progress);
+			const revealItems = document.querySelectorAll('.hero, .projects, .contacts, .card');
+			revealItems.forEach((item) => item.classList.add('reveal'));
+			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduceMotion) revealItems.forEach((item) => item.classList.add('is-visible'));
+			else {
+				const revealObserver = new IntersectionObserver((entries, observer) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }), { threshold: 0.12, rootMargin: '0px 0px -40px' });
+				revealItems.forEach((item) => revealObserver.observe(item));
+			}
+			const updateProgress = () => { const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight; progress.firstElementChild.style.transform = `scaleX(${scrollableHeight ? window.scrollY / scrollableHeight : 0})`; };
+			window.addEventListener('scroll', updateProgress, { passive: true });
+			updateProgress();
+		</script>
 	</body>
 </html>

@@ -18,8 +18,9 @@
 			</nav>
 			<span class="availability"><i></i> Available for opportunities</span>
 		</header>
+		<div class="scroll-progress" aria-hidden="true"><span></span></div>
 		<main id="top">
-			<section class="hero">
+			<section class="hero reveal">
 				<p class="eyebrow">01 / Profile</p>
 				<div class="hero-content">
 					<h1>Building digital<br><em>systems</em> that matter.</h1>
@@ -31,39 +32,66 @@
 				<div class="hero-footer"><span>BS Information Technology / System Development</span><span>React / Node.js / Python</span></div>
 			</section>
 
-			<section id="projects" class="projects">
+			<section id="projects" class="projects reveal">
 				<div class="section-heading"><p class="eyebrow">02 / Selected work</p><p class="section-note">Seven web-based projects across<br>finance, education, and productivity.</p></div>
 				<div class="card-container">
-					<div class="card">
+					<div class="card reveal">
 						<div class="card-top"><span>01</span><span>DeFi / React</span></div><h2>Avelon</h2><p>A decentralized lending platform with automated KYC, adaptive collateral tracking, ML-driven risk assessment, and Ethereum smart contracts.</p><a href="#contacts" class="card-link">Discuss project <span>↗</span></a>
 					</div>
-					<div class="card">
+					<div class="card reveal">
 						<div class="card-top"><span>02</span><span>EdTech / React</span></div><h2>PHINMA Education Wide Evaluation System</h2><p>A multi-campus evaluation and classroom observation system with structured feedback, reporting, and COPUS modules for academic administrators.</p><a href="#contacts" class="card-link">Discuss project <span>↗</span></a>
 					</div>
-					<div class="card">
+					<div class="card reveal">
 						<div class="card-top"><span>03</span><span>AI / FinTech</span></div><h2>AnchorWatch</h2><p>An AI-powered stablecoin intelligence platform turning complex market data into clear insights through custom LLM analysis and ETL pipelines.</p><a href="#contacts" class="card-link">Discuss project <span>↗</span></a>
 					</div>
-					<div class="card">
+					<div class="card reveal">
 						<div class="card-top"><span>04</span><span>Blockchain / Mobile</span></div><h2>BrightSteps</h2><p>An award-winning cross-border micro-lending app built for Android and iOS with Ethereum wallet connectivity and Solidity smart contracts.</p><a href="#contacts" class="card-link">Discuss project <span>↗</span></a>
 					</div>
-					<div class="card">
+					<div class="card reveal">
 						<div class="card-top"><span>05</span><span>AI / Education</span></div><h2>ReviewKita</h2><p>An AI-powered educational web application for uploading notes, generating summaries, and turning study materials into gamified quizzes.</p><a href="#contacts" class="card-link">Discuss project <span>↗</span></a>
 					</div>
-					<div class="card">
+					<div class="card reveal">
 						<div class="card-top"><span>06</span><span>Android / Productivity</span></div><h2>PuTask</h2><p>A personal task management and productivity analytics application with an advanced dashboard and customizable tracking categories.</p><a href="#contacts" class="card-link">Discuss project <span>↗</span></a>
 					</div>
-					<div class="card">
+					<div class="card reveal">
 						<div class="card-top"><span>07</span><span>Unity / 3D Game</span></div><h2>Lurk</h2><p>A 3D first-person horror game featuring interactive environments, enemy behavior, and a blockchain-based in-game shop.</p><a href="#contacts" class="card-link">Discuss project <span>↗</span></a>
 					</div>
 				</div>
 			</section>
 		
-			<section id="contacts" class="contacts">
+			<section id="contacts" class="contacts reveal">
 				<p class="eyebrow">03 / Say hello</p>
 				<h2>Have a good idea?<br><em>Let's build it well.</em></h2>
 				<div class="contact-details"><a href="mailto:bwillanthony@gmail.com">bwillanthony@gmail.com</a><span>+63 945 310 9171 · Pangasinan, PH</span><div><a href="https://www.linkedin.com/in/will-barillo">LinkedIn ↗</a><a href="https://github.com/will0704">GitHub ↗</a></div></div>
 			</section>
 		</main>
 		<footer><span>© 2024 Will Anthony Barillo</span><span>Built with curiosity.</span></footer>
+		<script>
+			document.documentElement.classList.add('js');
+			const revealItems = document.querySelectorAll('.reveal');
+			const progressBar = document.querySelector('.scroll-progress span');
+			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			if (reduceMotion) {
+				revealItems.forEach((item) => item.classList.add('is-visible'));
+			} else {
+				const revealObserver = new IntersectionObserver((entries, observer) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('is-visible');
+							observer.unobserve(entry.target);
+						}
+					});
+				}, { threshold: 0.12, rootMargin: '0px 0px -40px' });
+				revealItems.forEach((item) => revealObserver.observe(item));
+			}
+
+			const updateProgress = () => {
+				const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+				progressBar.style.transform = `scaleX(${scrollableHeight ? window.scrollY / scrollableHeight : 0})`;
+			};
+			window.addEventListener('scroll', updateProgress, { passive: true });
+			updateProgress();
+		</script>
 	</body>
 </html>
