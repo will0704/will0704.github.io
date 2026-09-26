@@ -111,6 +111,42 @@
 					document.body.style.setProperty('--spot-y', `${event.clientY}px`);
 				});
 			}
+
+			const projectYears = ['2026', '2025', '2025', '2025', 'Additional', 'Additional', 'Additional'];
+			const projectCards = [...document.querySelectorAll('.card')];
+			const projectModal = document.createElement('div');
+			projectModal.className = 'project-modal';
+			projectModal.setAttribute('aria-hidden', 'true');
+			projectModal.innerHTML = '<div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" type="button" aria-label="Close project details">×</button><div class="modal-visual"><span></span></div><div class="modal-copy"><p class="modal-kicker"></p><h2 id="modal-title"></h2><p class="modal-description"></p><div class="modal-tech"></div><p class="modal-hint">Press Escape or close to return</p></div></div>';
+			document.body.append(projectModal);
+			const modalTitle = projectModal.querySelector('#modal-title');
+			const modalKicker = projectModal.querySelector('.modal-kicker');
+			const modalDescription = projectModal.querySelector('.modal-description');
+			const modalTech = projectModal.querySelector('.modal-tech');
+			const modalVisual = projectModal.querySelector('.modal-visual');
+			const closeProjectModal = () => { projectModal.classList.remove('is-open'); projectModal.setAttribute('aria-hidden', 'true'); document.body.classList.remove('modal-open'); };
+			const openProjectModal = (card, index) => {
+				const title = card.querySelector('h2').textContent.trim();
+				const category = card.querySelector('.card-top span:last-child').textContent.trim();
+				modalTitle.textContent = title;
+				modalKicker.textContent = `${projectYears[index]} / ${category}`;
+				modalDescription.textContent = card.querySelector('p').textContent.trim();
+				modalTech.innerHTML = [...card.querySelectorAll('.card-tags span')].map((tag) => `<span>${tag.textContent}</span>`).join('');
+				modalVisual.className = `modal-visual visual-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+				modalVisual.querySelector('span').textContent = title;
+				projectModal.classList.add('is-open');
+				projectModal.setAttribute('aria-hidden', 'false');
+				document.body.classList.add('modal-open');
+				projectModal.querySelector('.modal-close').focus();
+			};
+			projectCards.forEach((card, index) => {
+				card.setAttribute('role', 'button'); card.setAttribute('tabindex', '0');
+				card.addEventListener('click', (event) => { if (!event.target.closest('a')) openProjectModal(card, index); });
+				card.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openProjectModal(card, index); } });
+			});
+			projectModal.querySelector('.modal-close').addEventListener('click', closeProjectModal);
+			projectModal.addEventListener('click', (event) => { if (event.target === projectModal) closeProjectModal(); });
+			document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeProjectModal(); });
 		</script>
 	</body>
 </html>

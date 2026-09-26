@@ -137,6 +137,34 @@ h1 em::before { animation: glitch-slice 4.5s 1.5s steps(2, end) infinite; }
 .card-tags span { transition: background .2s ease, border-color .2s ease, color .2s ease; }
 .card:hover .card-tags span { border-color: #5d6265; }
 .card-link { border-top: 1px solid var(--line); margin-top: auto; padding-top: 14px; }
+.card { cursor: pointer; }
+
+.project-modal { align-items: center; background: rgba(10, 11, 12, .82); display: flex; inset: 0; justify-content: center; opacity: 0; padding: 24px; pointer-events: none; position: fixed; transition: opacity .3s ease; z-index: 20; }
+.project-modal.is-open { opacity: 1; pointer-events: auto; }
+.modal-panel { background: var(--panel); border: 1px solid var(--line); box-shadow: 0 24px 80px rgba(0, 0, 0, .45); display: grid; gap: 34px; grid-template-columns: minmax(220px, .9fr) 1.1fr; max-height: min(720px, calc(100vh - 48px)); max-width: 920px; overflow: auto; padding: 18px; transform: translateY(20px) scale(.98); transition: transform .35s cubic-bezier(.2, .7, .2, 1); width: 100%; }
+.project-modal.is-open .modal-panel { transform: translateY(0) scale(1); }
+.modal-visual { align-items: center; background: #202428; border: 1px solid var(--line); display: flex; min-height: 390px; overflow: hidden; padding: 28px; position: relative; }
+.modal-visual::before { background: repeating-linear-gradient(0deg, transparent 0 23px, rgba(241, 240, 235, .08) 24px), repeating-linear-gradient(90deg, transparent 0 23px, rgba(241, 240, 235, .08) 24px); content: ""; inset: 0; position: absolute; }
+.modal-visual::after { border: 1px solid rgba(241, 240, 235, .28); content: ""; inset: 28px; position: absolute; }
+.modal-visual span { font-family: "DM Mono", monospace; font-size: clamp(2rem, 5vw, 4.5rem); letter-spacing: -.08em; line-height: .9; max-width: 260px; position: relative; text-transform: uppercase; z-index: 1; }
+.visual-avelon { background: linear-gradient(135deg, #1d2524, #26352f); }
+.visual-phinma { background: linear-gradient(135deg, #202326, #30383a); }
+.visual-anchorwatch { background: linear-gradient(135deg, #202227, #303342); }
+.visual-brightsteps { background: linear-gradient(135deg, #252321, #3c3329); }
+.visual-reviewkita { background: linear-gradient(135deg, #202421, #2b372e); }
+.visual-putask { background: linear-gradient(135deg, #202225, #2e303a); }
+.visual-lurk { background: linear-gradient(135deg, #1c2021, #303638); }
+.modal-copy { align-self: center; padding: 22px 22px 22px 0; }
+.modal-close { background: transparent; border: 1px solid var(--line); color: var(--paper); cursor: pointer; font: 1.2rem/1 "DM Mono", monospace; height: 36px; position: absolute; right: 18px; top: 18px; width: 36px; }
+.modal-close:hover { background: var(--paper); color: var(--ink); }
+.modal-kicker { color: var(--soft); font: .68rem "DM Mono", monospace; letter-spacing: .04em; text-transform: uppercase; }
+.modal-copy h2 { font-size: clamp(2.2rem, 5vw, 4.5rem); margin: 22px 0; max-width: 480px; }
+.modal-copy p { color: var(--soft); font-size: .95rem; max-width: 480px; }
+.modal-tech { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 26px; }
+.modal-tech span { border: 1px solid var(--line); color: var(--muted-paper); font: .62rem "DM Mono", monospace; padding: 5px 8px; text-transform: uppercase; }
+.modal-hint { color: var(--soft); font: .62rem "DM Mono", monospace; margin-top: 32px; text-transform: uppercase; }
+
+body.modal-open { overflow: hidden; }
 
 .cv-details { border-top: 1px solid var(--line); padding: 95px 0 120px; }
 .experience-list { border-top: 1px solid var(--line); }
@@ -223,6 +251,12 @@ h1 em::before { animation: glitch-slice 4.5s 1.5s steps(2, end) infinite; }
      .section-note { margin-top: 20px; }
      .card-container { grid-template-columns: 1fr; }
      .card { min-height: 300px; }
+    .project-modal { padding: 14px; }
+    .modal-panel { display: block; max-height: calc(100vh - 28px); padding: 12px; }
+    .modal-visual { min-height: 230px; }
+    .modal-visual::after { inset: 18px; }
+    .modal-copy { padding: 30px 12px 18px; }
+    .modal-copy h2 { font-size: clamp(2.3rem, 12vw, 4rem); margin: 18px 0; }
     .cv-details { padding: 75px 0 90px; }
     .experience-item, .profile-grid, .skills-grid { display: block; }
     .experience-meta { flex-direction: row; justify-content: space-between; margin-bottom: 25px; }
