@@ -80,7 +80,8 @@
 		<footer><span>© 2024 Will Anthony Barillo</span><span>Built with curiosity.</span></footer>
 		<script>
 			document.documentElement.classList.add('js');
-			const revealItems = document.querySelectorAll('.reveal');
+			const revealItems = document.querySelectorAll('.reveal, .experience-item, .profile-grid > div, .skills-grid > div, footer');
+			revealItems.forEach((item) => item.classList.add('reveal'));
 			const progressBar = document.querySelector('.scroll-progress span');
 			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 

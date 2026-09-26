@@ -50,7 +50,7 @@
 			progress.setAttribute('aria-hidden', 'true');
 			progress.innerHTML = '<span></span>';
 			document.body.prepend(progress);
-			const revealItems = document.querySelectorAll('.hero, .projects, .contacts, .cv-details, .card');
+			const revealItems = document.querySelectorAll('.hero, .projects, .contacts, .cv-details, .card, .experience-item, .profile-grid > div, .skills-grid > div, footer');
 			revealItems.forEach((item) => item.classList.add('reveal'));
 			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 			if (reduceMotion) revealItems.forEach((item) => item.classList.add('is-visible'));
