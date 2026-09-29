@@ -14,6 +14,17 @@
     --accent-blue-soft: rgba(121, 184, 232, .16);
      --max-width: 1180px;
  }
+
+[data-theme="light"] {
+    --ink: #edf3f7;
+    --panel: #f8fbfd;
+    --line: #c6d2dc;
+    --soft: #526271;
+    --paper: #14202a;
+    --muted-paper: #405565;
+    --accent-blue: #2777b4;
+    --accent-blue-soft: rgba(39, 119, 180, .14);
+}
  
  * { box-sizing: border-box; margin: 0; padding: 0; }
  
@@ -27,7 +38,11 @@
      line-height: 1.6;
     overflow-x: hidden;
     position: relative;
+    transition: background .3s ease, color .3s ease;
  }
+
+[data-theme="light"] body::before { background-image: linear-gradient(rgba(39, 119, 180, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(39, 119, 180, .07) 1px, transparent 1px); }
+[data-theme="light"] body::after { background: radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 20%), rgba(39, 119, 180, .12), transparent 22rem); }
 
 body::before {
     background-image: linear-gradient(rgba(121, 184, 232, .045) 1px, transparent 1px), linear-gradient(90deg, rgba(121, 184, 232, .045) 1px, transparent 1px);
@@ -93,9 +108,14 @@ body::after {
  
  .menu a { color: var(--muted-paper); text-decoration: none; transition: color .2s ease; }
  .menu a:hover, .menu a:focus-visible { color: white; }
+
+[data-theme="light"] .menu a:hover, [data-theme="light"] .menu a:focus-visible { color: var(--accent-blue); }
  
  .availability { align-items: center; color: var(--soft); display: flex; gap: .6rem; }
  .availability i { background: #d9e7d1; border-radius: 50%; box-shadow: 0 0 0 4px rgba(217, 231, 209, .08); height: 7px; width: 7px; }
+
+.theme-toggle { align-items: center; background: rgba(255, 255, 255, .06); border: 1px solid var(--line); border-radius: 50%; color: var(--paper); cursor: pointer; display: flex; font: 1rem/1 "DM Mono", monospace; height: 34px; justify-content: center; margin-left: 18px; transition: background .2s ease, border-color .2s ease, transform .2s ease; width: 34px; }
+.theme-toggle:hover, .theme-toggle:focus-visible { background: var(--accent-blue-soft); border-color: var(--accent-blue); transform: rotate(12deg); }
  
  .hero { min-height: 560px; padding: 110px 0 48px; }
  .eyebrow { color: var(--soft); }
@@ -143,6 +163,10 @@ h1 em::before { animation: glitch-slice 4.5s 1.5s steps(2, end) infinite; }
 .card-link { border-top: 1px solid var(--line); margin-top: auto; padding-top: 14px; }
 .card { cursor: pointer; }
 
+[data-theme="light"] .card { background: rgba(255, 255, 255, .48); border-color: rgba(20, 32, 42, .16); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75), 0 12px 35px rgba(39, 73, 98, .1); }
+[data-theme="light"] .card:hover { background: rgba(255, 255, 255, .72); border-color: var(--paper); box-shadow: 0 16px 45px rgba(39, 73, 98, .16); }
+[data-theme="light"] .card:hover h2 { color: var(--paper); }
+
 .project-modal { align-items: center; background: rgba(10, 11, 12, .82); display: flex; inset: 0; justify-content: center; opacity: 0; padding: 24px; pointer-events: none; position: fixed; transition: opacity .3s ease; z-index: 20; }
 .project-modal.is-open { opacity: 1; pointer-events: auto; }
 .modal-panel { backdrop-filter: blur(30px) saturate(140%); -webkit-backdrop-filter: blur(30px) saturate(140%); background: linear-gradient(135deg, rgba(52, 60, 68, .42), rgba(20, 23, 27, .6) 52%, rgba(39, 53, 65, .42)); border: 1px solid rgba(190, 221, 244, .3); box-shadow: 0 24px 80px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .18), inset 0 0 42px rgba(121, 184, 232, .06); display: grid; gap: 34px; grid-template-columns: minmax(220px, .9fr) 1.1fr; max-height: min(720px, calc(100vh - 48px)); max-width: 920px; overflow: hidden; padding: 18px; position: relative; transform: translateY(20px) scale(.98); transition: transform .35s cubic-bezier(.2, .7, .2, 1); width: 100%; }
@@ -170,6 +194,10 @@ h1 em::before { animation: glitch-slice 4.5s 1.5s steps(2, end) infinite; }
 .modal-hint { color: var(--soft); font: .62rem "DM Mono", monospace; margin-top: 32px; text-transform: uppercase; }
 
 body.modal-open { overflow: hidden; }
+
+[data-theme="light"] .project-modal { background: rgba(20, 32, 42, .28); }
+[data-theme="light"] .modal-panel { background: linear-gradient(135deg, rgba(255, 255, 255, .62), rgba(233, 242, 248, .72) 52%, rgba(210, 229, 241, .58)); border-color: rgba(39, 119, 180, .3); box-shadow: 0 24px 80px rgba(39, 73, 98, .22), inset 0 1px 0 rgba(255, 255, 255, .8), inset 0 0 42px rgba(39, 119, 180, .06); }
+[data-theme="light"] .modal-visual { background: rgba(255, 255, 255, .35); border-color: rgba(39, 119, 180, .25); }
 
 .cv-details { border-top: 1px solid var(--line); padding: 78px 0 120px; }
 .experience-list { border-top: 1px solid var(--line); }
