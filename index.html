@@ -10,6 +10,7 @@
 		<title>Will Anthony Barillo | Portfolio</title>
 	</head>
 	<body>
+		<a class="skip-link" href="#projects">Skip to selected work</a>
 		<header class="navbar">
 			<a class="brand" href="#top" aria-label="Will Anthony Barillo home">WAB<span>.</span></a>
 			<nav class="menu" aria-label="Main navigation">
@@ -31,7 +32,7 @@
 						<a class="text-link" href="#projects">Explore my work <span>↘</span></a>
 					</div>
 				</div>
-				<div class="hero-footer"><span>BS Information Technology / System Development</span><span>React / TypeScript / Python</span></div>
+				<div class="hero-footer"><span>BS Information Technology / System Development</span><span>Python / HTML / SQL</span></div>
 			</section>
 
 			<section id="projects" class="projects reveal">
@@ -112,6 +113,12 @@
 			};
 			window.addEventListener('scroll', updateProgress, { passive: true });
 			updateProgress();
+			const navLinks = [...document.querySelectorAll('.menu a')];
+			const observedSections = navLinks.map((link) => document.querySelector(link.hash)).filter(Boolean);
+			const sectionObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+				if (entry.isIntersecting) navLinks.forEach((link) => link.classList.toggle('is-active', link.hash === `#${entry.target.id}`));
+			}), { rootMargin: '-35% 0px -55%', threshold: 0 });
+			observedSections.forEach((section) => sectionObserver.observe(section));
 			if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
 				document.addEventListener('pointermove', (event) => {
 					document.body.style.setProperty('--spot-x', `${event.clientX}px`);
@@ -133,7 +140,8 @@
 			const modalVisual = projectModal.querySelector('.modal-visual');
 			const modalImage = projectModal.querySelector('.modal-image');
 			const projectImages = { Avelon: 'images/avelon.png', AnchorWatch: 'images/anchorwatch.png', BrightSteps: 'images/brightsteps.png', 'PHINMA Education Wide Evaluation System': 'images/phinmawide.png', PuTask: 'images/putask.jpg', ReviewKita: 'images/reviewkita.png', Lurk: 'images/Lurk.png' };
-			const closeProjectModal = () => { projectModal.classList.remove('is-open'); projectModal.setAttribute('aria-hidden', 'true'); document.body.classList.remove('modal-open'); };
+			let lastFocusedElement;
+			const closeProjectModal = () => { projectModal.classList.remove('is-open'); projectModal.setAttribute('aria-hidden', 'true'); document.body.classList.remove('modal-open'); lastFocusedElement?.focus(); };
 			const openProjectModal = (card, index) => {
 				const title = card.querySelector('h2').textContent.trim();
 				const category = card.querySelector('.card-top span:last-child').textContent.trim();
@@ -145,13 +153,14 @@
 				modalImage.src = projectImages[title] || '';
 				modalImage.alt = `${title} project screenshot`;
 				modalImage.hidden = !projectImages[title];
+				lastFocusedElement = document.activeElement;
 				projectModal.classList.add('is-open');
 				projectModal.setAttribute('aria-hidden', 'false');
 				document.body.classList.add('modal-open');
 				projectModal.querySelector('.modal-close').focus();
 			};
 			projectCards.forEach((card, index) => {
-				card.setAttribute('role', 'button'); card.setAttribute('tabindex', '0');
+				card.setAttribute('role', 'button'); card.setAttribute('tabindex', '0'); card.setAttribute('aria-label', `Open ${card.querySelector('h2').textContent.trim()} project details`);
 				card.addEventListener('click', (event) => { if (!event.target.closest('a')) openProjectModal(card, index); });
 				card.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openProjectModal(card, index); } });
 			});

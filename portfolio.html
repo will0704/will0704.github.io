@@ -10,13 +10,14 @@
 		<title>Will Anthony Barillo | Portfolio</title>
 	</head>
 	<body>
+		<a class="skip-link" href="#projects">Skip to selected work</a>
 		<header class="navbar"><a class="brand" href="#top">WAB<span>.</span></a>
 
 			<nav class="menu" aria-label="Main navigation">
 				<a href="#projects">Projects</a>
 				<a href="#contacts">Contacts</a>
 			</nav><span class="availability"><i></i> Available for opportunities</span><button class="theme-toggle" type="button" aria-label="Switch to light mode" title="Switch to light mode"><span aria-hidden="true">☼</span></button></header>
-			<main id="top"><section class="hero"><p class="eyebrow">01 / Profile</p><div class="hero-content"><h1>Building digital<br><em>systems</em> that matter.</h1><div class="hero-copy"><img class="profile-photo" src="images/Will.jpg" alt="Portrait of Will Anthony Baccay Barillo"><p>I'm <strong>Will Anthony Baccay Barillo</strong>, a System Development IT student specializing in responsive, scalable web applications across DeFi, education, financial intelligence, and productivity.</p><a class="text-link" href="#projects">Explore my work <span>↘</span></a></div></div><div class="hero-footer"><span>BS Information Technology / System Development</span><span>React / TypeScript / Python</span></div></section>
+			<main id="top"><section class="hero"><p class="eyebrow">01 / Profile</p><div class="hero-content"><h1>Building digital<br><em>systems</em> that matter.</h1><div class="hero-copy"><img class="profile-photo" src="images/Will.jpg" alt="Portrait of Will Anthony Baccay Barillo"><p>I'm <strong>Will Anthony Baccay Barillo</strong>, a System Development IT student specializing in responsive, scalable web applications across DeFi, education, financial intelligence, and productivity.</p><a class="text-link" href="#projects">Explore my work <span>↘</span></a></div></div><div class="hero-footer"><span>BS Information Technology / System Development</span><span>Python / HTML / SQL</span></div></section>
 
 			<section id="projects" class="projects"><div class="section-heading"><p class="eyebrow">02 / Selected work</p><p class="section-note">Seven software projects across<br>finance, education, and productivity.</p></div>
 				<div class="card-container">
@@ -66,6 +67,12 @@
 			const updateProgress = () => { const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight; progress.firstElementChild.style.transform = `scaleX(${scrollableHeight ? window.scrollY / scrollableHeight : 0})`; };
 			window.addEventListener('scroll', updateProgress, { passive: true });
 			updateProgress();
+			const navLinks = [...document.querySelectorAll('.menu a')];
+			const observedSections = navLinks.map((link) => document.querySelector(link.hash)).filter(Boolean);
+			const sectionObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+				if (entry.isIntersecting) navLinks.forEach((link) => link.classList.toggle('is-active', link.hash === `#${entry.target.id}`));
+			}), { rootMargin: '-35% 0px -55%', threshold: 0 });
+			observedSections.forEach((section) => sectionObserver.observe(section));
 			if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
 				document.addEventListener('pointermove', (event) => {
 					document.body.style.setProperty('--spot-x', `${event.clientX}px`);
@@ -80,9 +87,10 @@
 			document.body.append(projectModal);
 			const modalTitle = projectModal.querySelector('#modal-title'); const modalKicker = projectModal.querySelector('.modal-kicker'); const modalDescription = projectModal.querySelector('.modal-description'); const modalTech = projectModal.querySelector('.modal-tech'); const modalVisual = projectModal.querySelector('.modal-visual'); const modalImage = projectModal.querySelector('.modal-image');
 			const projectImages = { Avelon: 'images/avelon.png', AnchorWatch: 'images/anchorwatch.png', BrightSteps: 'images/brightsteps.png', 'PHINMA Education Wide Evaluation System': 'images/phinmawide.png', PuTask: 'images/putask.jpg', ReviewKita: 'images/reviewkita.png', Lurk: 'images/Lurk.png' };
-			const closeProjectModal = () => { projectModal.classList.remove('is-open'); projectModal.setAttribute('aria-hidden', 'true'); document.body.classList.remove('modal-open'); };
-			const openProjectModal = (card, index) => { const title = card.querySelector('h2').textContent.trim(); modalTitle.textContent = title; modalKicker.textContent = `${projectYears[index]} / ${card.querySelector('.card-top span:last-child').textContent.trim()}`; modalDescription.textContent = card.querySelector('p').textContent.trim(); modalTech.innerHTML = [...card.querySelectorAll('.card-tags span')].map((tag) => `<span>${tag.textContent}</span>`).join(''); modalVisual.className = `modal-visual visual-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`; modalImage.src = projectImages[title] || ''; modalImage.alt = `${title} project screenshot`; modalImage.hidden = !projectImages[title]; projectModal.classList.add('is-open'); projectModal.setAttribute('aria-hidden', 'false'); document.body.classList.add('modal-open'); projectModal.querySelector('.modal-close').focus(); };
-			projectCards.forEach((card, index) => { card.setAttribute('role', 'button'); card.setAttribute('tabindex', '0'); card.addEventListener('click', (event) => { if (!event.target.closest('a')) openProjectModal(card, index); }); card.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openProjectModal(card, index); } }); });
+			let lastFocusedElement;
+			const closeProjectModal = () => { projectModal.classList.remove('is-open'); projectModal.setAttribute('aria-hidden', 'true'); document.body.classList.remove('modal-open'); lastFocusedElement?.focus(); };
+			const openProjectModal = (card, index) => { const title = card.querySelector('h2').textContent.trim(); modalTitle.textContent = title; modalKicker.textContent = `${projectYears[index]} / ${card.querySelector('.card-top span:last-child').textContent.trim()}`; modalDescription.textContent = card.querySelector('p').textContent.trim(); modalTech.innerHTML = [...card.querySelectorAll('.card-tags span')].map((tag) => `<span>${tag.textContent}</span>`).join(''); modalVisual.className = `modal-visual visual-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`; modalImage.src = projectImages[title] || ''; modalImage.alt = `${title} project screenshot`; modalImage.hidden = !projectImages[title]; lastFocusedElement = document.activeElement; projectModal.classList.add('is-open'); projectModal.setAttribute('aria-hidden', 'false'); document.body.classList.add('modal-open'); projectModal.querySelector('.modal-close').focus(); };
+			projectCards.forEach((card, index) => { card.setAttribute('role', 'button'); card.setAttribute('tabindex', '0'); card.setAttribute('aria-label', `Open ${card.querySelector('h2').textContent.trim()} project details`); card.addEventListener('click', (event) => { if (!event.target.closest('a')) openProjectModal(card, index); }); card.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openProjectModal(card, index); } }); });
 			projectModal.querySelector('.modal-close').addEventListener('click', closeProjectModal); projectModal.addEventListener('click', (event) => { if (event.target === projectModal) closeProjectModal(); }); document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeProjectModal(); });
 		</script>
 	</body>
