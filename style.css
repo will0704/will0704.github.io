@@ -190,6 +190,7 @@ h1 em::before { animation: glitch-slice 4.5s 1.5s steps(2, end) infinite; }
  .card-top { color: var(--soft); display: flex; justify-content: space-between; }
 .card-top span:last-child { animation: label-breathe 5s ease-in-out infinite; }
 .card h2 { font-size: clamp(2rem, 3.5vw, 3rem); margin: auto 0 20px; transition: color .25s ease, transform .25s ease; }
+.card:nth-child(3) h2 { font-size: clamp(1.7rem, 2.8vw, 2.5rem); }
 .card:hover h2 { color: #fff; transform: translateX(5px); }
  .card p { color: var(--soft); font-size: .88rem; max-width: 310px; }
 .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; min-height: 27px; }
