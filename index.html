@@ -131,15 +131,26 @@
 			const projectModal = document.createElement('div');
 			projectModal.className = 'project-modal';
 			projectModal.setAttribute('aria-hidden', 'true');
-			projectModal.innerHTML = '<div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" type="button" aria-label="Close project details">×</button><div class="modal-visual"><img class="modal-image" alt=""></div><div class="modal-copy"><p class="modal-kicker"></p><h2 id="modal-title"></h2><p class="modal-description"></p><div class="modal-tech"></div><p class="modal-hint">Press Escape or close to return</p></div></div>';
+			projectModal.innerHTML = '<div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" type="button" aria-label="Close project details">×</button><div class="modal-visual"><img class="modal-image" alt=""></div><div class="modal-copy"><p class="modal-kicker"></p><h2 id="modal-title"></h2><p class="modal-description"></p><div class="modal-tech"></div><div class="modal-details"></div><p class="modal-hint">Press Escape or close to return</p></div></div>';
 			document.body.append(projectModal);
 			const modalTitle = projectModal.querySelector('#modal-title');
 			const modalKicker = projectModal.querySelector('.modal-kicker');
 			const modalDescription = projectModal.querySelector('.modal-description');
 			const modalTech = projectModal.querySelector('.modal-tech');
+			const modalDetails = projectModal.querySelector('.modal-details');
 			const modalVisual = projectModal.querySelector('.modal-visual');
 			const modalImage = projectModal.querySelector('.modal-image');
 			const projectImages = { Avelon: 'images/avelon.png', AnchorWatch: 'images/anchorwatch.png', BrightSteps: 'images/brightsteps.png', 'PHINMA Education Wide Evaluation System': 'images/phinmawide.png', PuTask: 'images/putask.jpg', ReviewKita: 'images/reviewkita.png', Lurk: 'images/Lurk.png' };
+			const projectDetails = {
+				Avelon: { role: 'Project Manager / Frontend', summary: 'A full-stack crypto lending platform that combines AI risk assessment with transparent Ethereum lending rules.', highlights: ['LSTM/GRU models support borrower eligibility and ETH volatility scoring.', 'Smart contracts manage deposits, repayment, collateral, and automatic liquidation.', 'The product targets a 150% minimum collateral ratio with real-time loan monitoring.'] },
+				'PHINMA Education Wide Evaluation System': { role: 'Frontend Developer', summary: 'A multi-campus academic operations system connecting student feedback, supervisor ratings, HR management, and COPUS analytics.', highlights: ['Role-based workflows support IT, HR, Deans, Program Heads, and Active Learning Coordinators.', 'Student Feedback Form, Supervisor Rating, and COPUS Analytics support evaluation and classroom observation.', 'React/Vite frontend and Django/PostgreSQL/Redis services support local and production deployment.'] },
+				AnchorWatch: { role: 'Frontend / Backend Developer', summary: 'An AI-enhanced financial intelligence platform that studies stablecoin flows alongside global macroeconomic indicators.', highlights: ['Real-time visualizations connect stablecoin activity with GDP, inflation, and interest rates.', 'React/TypeScript powers the administrative web application while Flutter supports Android and iOS users.', 'The platform helps users identify abnormal trends across blockchain assets and economic health.'] },
+				BrightSteps: { role: 'Frontend Developer', summary: 'A blockchain-integrated lending application designed to make cross-border borrowing and repayment more accessible.', highlights: ['The lending flow covers borrower access, loan processing, repayment, and administrative monitoring.', 'Ethereum wallet connectivity supports blockchain-verified transactions and smart-contract interactions.', 'The project was recognized for web development, app development, and UI/UX design.'] },
+				ReviewKita: { role: 'UI/UX Designer / Frontend Developer', summary: 'An AI learning and review website that turns uploaded study materials into personalized learning aids.', highlights: ['Students can upload notes, highlight key sections, and generate summaries.', 'AI-generated quizzes and flashcards support faster review and stronger retention.', 'Progress tracking, reminders, badges, streaks, leaderboards, and rewards add a gamified study loop.'] },
+				PuTask: { role: 'Backend Developer', summary: 'A task management and analytics application built to improve planning, deadline awareness, and time management.', highlights: ['Users can create tasks, assign categories, manage deadlines, and track overdue work.', 'Calendar views and detailed analytics turn task history into actionable productivity insights.', 'The proposal is designed for both individual users and teams.'] },
+				Lurk: { role: 'Game Developer', summary: 'A single-player horror scavenging roguelite set in lunar facilities, built in Unity for PC.', highlights: ['Oxygen tanks are both the survival timer and the central quota objective.', 'Runs escalate from quiet scouting to expanding maps, rising quotas, and multiplying specimens.', 'Enemy behavior and environmental hints reveal threats through sound, whispers, and priority attacks.'] }
+			};
+			const renderModalDetails = (title) => { const details = projectDetails[title]; modalDetails.innerHTML = `<p class="modal-role">${details.role}</p><p class="modal-details-label">Project highlights</p><ul>${details.highlights.map((highlight) => `<li>${highlight}</li>`).join('')}</ul>`; };
 			let lastFocusedElement;
 			const closeProjectModal = () => { projectModal.classList.remove('is-open'); projectModal.setAttribute('aria-hidden', 'true'); document.body.classList.remove('modal-open'); lastFocusedElement?.focus(); };
 			const openProjectModal = (card, index) => {
@@ -149,6 +160,7 @@
 				modalKicker.textContent = `${projectYears[index]} / ${category}`;
 				modalDescription.textContent = card.querySelector('p').textContent.trim();
 				modalTech.innerHTML = [...card.querySelectorAll('.card-tags span')].map((tag) => `<span>${tag.textContent}</span>`).join('');
+				renderModalDetails(title);
 				modalVisual.className = `modal-visual visual-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 				modalImage.src = projectImages[title] || '';
 				modalImage.alt = `${title} project screenshot`;
