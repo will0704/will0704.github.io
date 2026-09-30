@@ -271,6 +271,25 @@ body.modal-open { overflow: hidden; }
 .skills-grid { display: grid; gap: 24px 8%; grid-template-columns: 1fr 1fr; margin-top: 24px; }
 .skills-grid span { color: var(--paper); font-family: "DM Mono", monospace; font-size: .68rem; text-transform: uppercase; }
 .skills-grid p { margin-top: 7px; }
+
+.playground { border-top: 1px solid var(--line); padding: 78px 0 110px; }
+.mini-game { background: linear-gradient(135deg, rgba(25, 28, 31, .68), rgba(25, 28, 31, .38)); border: 1px solid rgba(190, 221, 244, .24); border-radius: 16px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .16); overflow: hidden; position: relative; }
+.mini-game::before { background: linear-gradient(115deg, rgba(121, 184, 232, .18), transparent 32%, transparent 68%, rgba(255, 255, 255, .08)); content: ""; inset: 0; pointer-events: none; position: absolute; }
+.game-topline, .game-controls { align-items: center; display: flex; justify-content: space-between; }
+.game-topline { border-bottom: 1px solid rgba(190, 221, 244, .18); color: var(--soft); font: .68rem "DM Mono", monospace; letter-spacing: .05em; padding: 17px 22px; text-transform: uppercase; }
+.game-topline span:first-child { color: var(--accent-blue); }
+.game-topline b { color: var(--paper); font-weight: 500; }
+.game-stage { min-height: 190px; padding: 42px 22px 34px; position: relative; text-align: center; }
+.game-prompt { color: var(--paper); font-size: clamp(1.8rem, 4vw, 3.4rem); font-weight: 600; letter-spacing: -.06em; min-height: 1.1em; }
+.game-options { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 28px; }
+.game-options button, .game-start { background: rgba(121, 184, 232, .08); border: 1px solid rgba(190, 221, 244, .28); border-radius: 999px; color: var(--paper); cursor: pointer; font: .68rem "DM Mono", monospace; letter-spacing: .04em; padding: 10px 14px; text-transform: uppercase; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+.game-options button:hover:not(:disabled), .game-options button:focus-visible, .game-start:hover, .game-start:focus-visible { background: var(--accent-blue); border-color: var(--accent-blue); color: var(--ink); transform: translateY(-2px); }
+.game-options button:disabled { cursor: not-allowed; opacity: .38; }
+.game-controls { border-top: 1px solid rgba(190, 221, 244, .18); gap: 20px; padding: 16px 22px; }
+.game-feedback { color: var(--soft); font: .68rem "DM Mono", monospace; letter-spacing: .04em; text-transform: uppercase; }
+.game-start { background: var(--paper); color: var(--ink); }
+[data-theme="light"] .mini-game { background: linear-gradient(135deg, rgba(232, 240, 244, .72), rgba(210, 225, 233, .62)); border-color: rgba(40, 111, 156, .24); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .72), 0 24px 60px rgba(39, 73, 98, .12); }
+[data-theme="light"] .game-options button, [data-theme="light"] .game-start { background: rgba(40, 111, 156, .08); border-color: rgba(40, 111, 156, .3); }
  
  .contacts { border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1.4fr .8fr; padding: 105px 0 115px; }
 .contacts { background: linear-gradient(135deg, transparent 35%, var(--accent-blue-soft)); position: relative; }
