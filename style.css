@@ -105,13 +105,14 @@ body::after {
     top: 14px;
      z-index: 15;
     transform-origin: top right;
-    transition: min-height .5s cubic-bezier(.2, .8, .2, 1), width .5s cubic-bezier(.2, .8, .2, 1), border-radius .5s cubic-bezier(.2, .8, .2, 1), padding .5s cubic-bezier(.2, .8, .2, 1), left .35s cubic-bezier(.2, .8, .2, 1), transform .5s cubic-bezier(.2, .8, .2, 1), box-shadow .5s ease;
+    transition: transform .45s cubic-bezier(.2, .8, .2, 1), opacity .25s ease, left .35s cubic-bezier(.2, .8, .2, 1), background-color .25s ease, border-color .25s ease;
+    will-change: transform;
  }
 
 [data-theme="light"] .navbar { background: rgba(237, 243, 247, .58); border-color: rgba(20, 32, 42, .1); }
 [data-theme="light"] .navbar.is-collapsed { background: rgba(237, 243, 247, .9); border-color: rgba(40, 111, 156, .35); }
 
-.navbar.is-collapsed { align-items: center; animation: dock-header .55s cubic-bezier(.2, .8, .2, 1) both; background: rgba(18, 20, 22, .86); border-color: var(--accent-blue); border-radius: 50%; bottom: 24px; box-shadow: 0 14px 32px rgba(0, 0, 0, .24), 0 0 0 5px rgba(121, 184, 232, .08); cursor: grab; justify-content: center; left: auto; min-height: 56px; overflow: hidden; padding: 0; position: fixed; right: 24px; top: auto; transform: scale(.92); width: 56px; }
+.navbar.is-collapsed { align-items: center; animation: dock-header .55s cubic-bezier(.2, .8, .2, 1) both; backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(18, 20, 22, .86); border-color: var(--accent-blue); border-radius: 50%; bottom: 24px; box-shadow: 0 14px 32px rgba(0, 0, 0, .24), 0 0 0 5px rgba(121, 184, 232, .08); cursor: grab; justify-content: center; left: auto; min-height: 56px; overflow: hidden; padding: 0; position: fixed; right: 24px; top: auto; transform: scale(.92); width: 56px; }
 .navbar.is-collapsed::after { color: var(--paper); content: "WAB"; font: 800 .86rem/1 "Manrope", sans-serif; letter-spacing: -.04em; position: absolute; text-shadow: 0 0 12px rgba(121, 184, 232, .55); }
 .navbar.is-collapsed.is-dragging { animation: none; cursor: grabbing; transition: none; }
 .navbar.is-collapsed.has-custom-position { animation: none; }
