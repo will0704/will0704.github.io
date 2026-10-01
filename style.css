@@ -12,6 +12,7 @@
      --muted-paper: #c8c8c2;
     --accent-blue: #79b8e8;
     --accent-blue-soft: rgba(121, 184, 232, .16);
+    --ambient-wash: rgba(73, 133, 176, .14);
      --max-width: 1180px;
  }
 
@@ -24,6 +25,7 @@
     --muted-paper: #354d5b;
     --accent-blue: #286f9c;
     --accent-blue-soft: rgba(39, 119, 180, .14);
+    --ambient-wash: rgba(39, 119, 180, .13);
 }
  
  * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,7 +38,7 @@ html { scrollbar-color: var(--accent-blue) var(--ink); }
 section[id] { scroll-margin-top: 104px; }
  
  body {
-     background: var(--ink);
+    background: radial-gradient(circle at 12% 18%, var(--ambient-wash), transparent 34rem), radial-gradient(circle at 88% 72%, var(--accent-blue-soft), transparent 30rem), var(--ink);
      color: var(--paper);
      font-family: "Manrope", sans-serif;
      font-size: 16px;
@@ -46,27 +48,32 @@ section[id] { scroll-margin-top: 104px; }
     transition: background .3s ease, color .3s ease;
  }
 
-[data-theme="light"] body::before { background-image: linear-gradient(rgba(39, 119, 180, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(39, 119, 180, .07) 1px, transparent 1px); }
-[data-theme="light"] body::after { background: radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 20%), rgba(39, 119, 180, .12), transparent 22rem); }
+[data-theme="light"] body::before { animation: grid-drift 28s linear infinite, grid-pulse-light 11s ease-in-out infinite; background-image: radial-gradient(circle at 24% 28%, rgba(39, 119, 180, .18), transparent 30rem), linear-gradient(rgba(39, 119, 180, .11) 1px, transparent 1px), linear-gradient(90deg, rgba(39, 119, 180, .11) 1px, transparent 1px); }
+[data-theme="light"] body::after { background: radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 20%), rgba(39, 119, 180, .06), transparent 12rem); }
 
 body::before {
-    background-image: linear-gradient(rgba(121, 184, 232, .045) 1px, transparent 1px), linear-gradient(90deg, rgba(121, 184, 232, .045) 1px, transparent 1px);
+    background-image: radial-gradient(circle at 72% 18%, rgba(121, 184, 232, .09), transparent 26rem), linear-gradient(rgba(121, 184, 232, .045) 1px, transparent 1px), linear-gradient(90deg, rgba(121, 184, 232, .045) 1px, transparent 1px);
     background-size: 72px 72px;
     content: "";
     inset: 0;
     mask-image: linear-gradient(to bottom, black, transparent 78%);
     pointer-events: none;
     position: fixed;
+    animation: grid-drift 28s linear infinite, grid-pulse 11s ease-in-out infinite;
+    will-change: background-position;
     z-index: -2;
 }
 
 body::after {
-    background: radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 20%), rgba(241, 240, 235, .09), transparent 22rem);
+    background: radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 20%), rgba(121, 184, 232, .055), transparent 12rem);
     content: "";
     inset: 0;
     pointer-events: none;
     position: fixed;
+    animation: ambient-breathe 12s ease-in-out infinite alternate;
+    filter: blur(2px);
     transition: background .25s ease;
+    will-change: transform, opacity;
     z-index: -1;
 }
  
@@ -356,6 +363,35 @@ body.modal-open { overflow: hidden; }
 @keyframes ambient-drift {
     0% { transform: scale(1) translate3d(-2%, -1%, 0); }
     100% { transform: scale(1.08) translate3d(2%, 2%, 0); }
+}
+
+@keyframes grid-drift {
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 72px 72px, 72px 72px; }
+}
+
+@keyframes grid-pulse {
+    0%, 100% { opacity: .68; }
+    13% { opacity: .84; }
+    29% { opacity: .72; }
+    47% { opacity: .96; }
+    64% { opacity: .76; }
+    81% { opacity: .9; }
+}
+
+@keyframes grid-pulse-light {
+    0%, 100% { opacity: .78; }
+    13% { opacity: .94; }
+    29% { opacity: .82; }
+    47% { opacity: 1; }
+    64% { opacity: .86; }
+    81% { opacity: .98; }
+}
+
+@keyframes ambient-breathe {
+    0% { opacity: .78; transform: scale(1) translate3d(-1%, 0, 0); }
+    50% { opacity: 1; }
+    100% { opacity: .84; transform: scale(1.06) translate3d(1%, 1%, 0); }
 }
  
  @media (max-width: 760px) {
