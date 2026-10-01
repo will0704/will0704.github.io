@@ -104,9 +104,19 @@ body::after {
      position: sticky;
     top: 14px;
      z-index: 15;
+    transform-origin: top right;
+    transition: min-height .5s cubic-bezier(.2, .8, .2, 1), width .5s cubic-bezier(.2, .8, .2, 1), border-radius .5s cubic-bezier(.2, .8, .2, 1), padding .5s cubic-bezier(.2, .8, .2, 1), transform .5s cubic-bezier(.2, .8, .2, 1), box-shadow .5s ease;
  }
 
 [data-theme="light"] .navbar { background: rgba(237, 243, 247, .58); border-color: rgba(20, 32, 42, .1); }
+[data-theme="light"] .navbar.is-collapsed { background: rgba(237, 243, 247, .9); border-color: rgba(40, 111, 156, .35); }
+
+.navbar.is-collapsed { align-items: center; animation: dock-header .55s cubic-bezier(.2, .8, .2, 1) both; background: rgba(18, 20, 22, .86); border-color: var(--accent-blue); border-radius: 50%; bottom: 24px; box-shadow: 0 14px 32px rgba(0, 0, 0, .24), 0 0 0 5px rgba(121, 184, 232, .08); cursor: grab; justify-content: center; left: auto; min-height: 56px; overflow: hidden; padding: 0; position: fixed; right: 24px; top: auto; transform: scale(.92); width: 56px; }
+.navbar.is-collapsed::after { color: var(--paper); content: "☰"; font: 1.05rem/1 "DM Mono", monospace; position: absolute; }
+.navbar.is-collapsed.is-dragging { animation: none; cursor: grabbing; transition: none; }
+.navbar.is-collapsed .brand, .navbar.is-collapsed .menu, .navbar.is-collapsed .availability { opacity: 0; pointer-events: none; transform: scale(.7); }
+.navbar.is-collapsed .theme-toggle { opacity: 0; pointer-events: none; transform: scale(.7); }
+.navbar.is-collapsed > * { transition: opacity .2s ease, transform .35s ease; }
 [data-theme="light"] .theme-toggle { background: rgba(40, 111, 156, .1); border-color: rgba(40, 111, 156, .3); }
  
  .brand {
@@ -393,6 +403,11 @@ body.modal-open { overflow: hidden; }
     50% { opacity: 1; }
     100% { opacity: .84; transform: scale(1.06) translate3d(1%, 1%, 0); }
 }
+
+@keyframes dock-header {
+    from { opacity: .5; transform: translateY(-58vh) scale(.78); }
+    to { opacity: 1; transform: translateY(0) scale(.92); }
+}
  
  @media (max-width: 760px) {
      .navbar, main, footer { width: min(calc(100% - 40px), var(--max-width)); }
@@ -490,6 +505,7 @@ body.modal-open { overflow: hidden; }
     body::after { display: none; }
     .section-note, h1 em, h1 em::before, .contacts h2 em::before, .card-top span:last-child, .contact-details > a { animation: none; }
     .card { transform: none !important; will-change: auto; }
+    .navbar { transition-duration: .01ms !important; }
 }
 
 @media (hover: none) {

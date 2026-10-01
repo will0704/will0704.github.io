@@ -84,6 +84,7 @@
 		<script>
 			const savedTheme = localStorage.getItem('portfolio-theme');
 			const themeToggle = document.querySelector('.theme-toggle');
+			const navbar = document.querySelector('.navbar');
 			const applyTheme = (theme) => { document.documentElement.dataset.theme = theme; themeToggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`); themeToggle.title = themeToggle.getAttribute('aria-label'); themeToggle.querySelector('span').textContent = theme === 'dark' ? '☼' : '☾'; };
 			applyTheme(savedTheme === 'light' ? 'light' : 'dark');
 			themeToggle.addEventListener('click', () => { const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('portfolio-theme', nextTheme); applyTheme(nextTheme); });
@@ -111,6 +112,57 @@
 				const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
 				progressBar.style.transform = `scaleX(${scrollableHeight ? window.scrollY / scrollableHeight : 0})`;
 			};
+			let lastScrollY = window.scrollY;
+			let navbarWasPressed = false;
+			const mobilePortraitQuery = window.matchMedia('(max-width: 760px) and (orientation: portrait)');
+			let navbarWasDragged = false;
+			let dragState = null;
+			const resetNavbarPosition = () => { ['left', 'top', 'right', 'bottom'].forEach((property) => { navbar.style.removeProperty(property); }); };
+			const setNavbarState = (collapsed) => { navbar.classList.toggle('is-collapsed', collapsed); navbar.setAttribute('aria-expanded', String(!collapsed)); navbar.setAttribute('aria-label', collapsed ? 'Open portfolio navigation' : 'Portfolio navigation'); if (!collapsed) resetNavbarPosition(); };
+			const updateNavbar = () => {
+				const currentScrollY = window.scrollY;
+				if (!mobilePortraitQuery.matches) { setNavbarState(false); navbarWasPressed = false; lastScrollY = currentScrollY; return; }
+				const scrollingDown = currentScrollY > lastScrollY + 5;
+				const scrollingUp = currentScrollY < lastScrollY - 5;
+				if (currentScrollY <= 40 || scrollingUp) {
+					setNavbarState(false);
+					navbarWasPressed = false;
+				} else if (scrollingDown && !navbarWasPressed) {
+					setNavbarState(true);
+				}
+				lastScrollY = currentScrollY;
+			};
+			navbar.setAttribute('aria-expanded', 'true');
+			navbar.setAttribute('aria-label', 'Portfolio navigation');
+			navbar.tabIndex = 0;
+			navbar.addEventListener('click', (event) => {
+				if (!navbar.classList.contains('is-collapsed') || event.target.closest('.theme-toggle') || navbarWasDragged) { navbarWasDragged = false; return; }
+				setNavbarState(false);
+				navbarWasPressed = false;
+			});
+			navbar.addEventListener('keydown', (event) => { if (navbar.classList.contains('is-collapsed') && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); setNavbarState(false); navbarWasPressed = false; } });
+			navbar.addEventListener('pointerdown', (event) => {
+				if (!navbar.classList.contains('is-collapsed') || event.button !== 0) return;
+				const bounds = navbar.getBoundingClientRect();
+				dragState = { pointerId: event.pointerId, offsetX: event.clientX - bounds.left, offsetY: event.clientY - bounds.top, startX: event.clientX, startY: event.clientY };
+				navbarWasDragged = false;
+				navbar.setPointerCapture(event.pointerId);
+			});
+			navbar.addEventListener('pointermove', (event) => {
+				if (!dragState || dragState.pointerId !== event.pointerId) return;
+				if (Math.hypot(event.clientX - dragState.startX, event.clientY - dragState.startY) > 4) navbarWasDragged = true;
+				if (!navbarWasDragged) return;
+				const maxLeft = window.innerWidth - navbar.offsetWidth - 8;
+				const maxTop = window.innerHeight - navbar.offsetHeight - 8;
+				const left = Math.max(8, Math.min(maxLeft, event.clientX - dragState.offsetX));
+				const top = Math.max(8, Math.min(maxTop, event.clientY - dragState.offsetY));
+				navbar.style.left = `${left}px`; navbar.style.top = `${top}px`; navbar.style.right = 'auto'; navbar.style.bottom = 'auto'; navbar.classList.add('is-dragging');
+			});
+			const stopNavbarDrag = (event) => { if (!dragState || dragState.pointerId !== event.pointerId) return; navbar.classList.remove('is-dragging'); dragState = null; };
+			navbar.addEventListener('pointerup', stopNavbarDrag);
+			navbar.addEventListener('pointercancel', stopNavbarDrag);
+			window.addEventListener('scroll', updateNavbar, { passive: true });
+			mobilePortraitQuery.addEventListener('change', updateNavbar);
 			window.addEventListener('scroll', updateProgress, { passive: true });
 			updateProgress();
 			const navLinks = [...document.querySelectorAll('.menu a')];
