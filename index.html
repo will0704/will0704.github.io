@@ -117,7 +117,7 @@
 			const mobilePortraitQuery = window.matchMedia('(max-width: 760px) and (orientation: portrait)');
 			let navbarWasDragged = false;
 			let dragState = null;
-			const resetNavbarPosition = () => { ['left', 'top', 'right', 'bottom'].forEach((property) => { navbar.style.removeProperty(property); }); };
+			const resetNavbarPosition = () => { ['left', 'top', 'right', 'bottom'].forEach((property) => { navbar.style.removeProperty(property); }); navbar.classList.remove('has-custom-position'); };
 			const setNavbarState = (collapsed) => { navbar.classList.toggle('is-collapsed', collapsed); navbar.setAttribute('aria-expanded', String(!collapsed)); navbar.setAttribute('aria-label', collapsed ? 'Open portfolio navigation' : 'Portfolio navigation'); if (!collapsed) resetNavbarPosition(); };
 			const updateNavbar = () => {
 				const currentScrollY = window.scrollY;
@@ -158,7 +158,7 @@
 				const top = Math.max(8, Math.min(maxTop, event.clientY - dragState.offsetY));
 				navbar.style.left = `${left}px`; navbar.style.top = `${top}px`; navbar.style.right = 'auto'; navbar.style.bottom = 'auto'; navbar.classList.add('is-dragging');
 			});
-			const stopNavbarDrag = (event) => { if (!dragState || dragState.pointerId !== event.pointerId) return; navbar.classList.remove('is-dragging'); dragState = null; };
+			const stopNavbarDrag = (event) => { if (!dragState || dragState.pointerId !== event.pointerId) return; navbar.classList.remove('is-dragging'); if (navbarWasDragged) { const bounds = navbar.getBoundingClientRect(); const edgeLeft = bounds.left + bounds.width / 2 < window.innerWidth / 2 ? 8 : window.innerWidth - bounds.width - 8; navbar.classList.add('has-custom-position'); navbar.style.left = `${edgeLeft}px`; navbar.style.right = 'auto'; } dragState = null; };
 			navbar.addEventListener('pointerup', stopNavbarDrag);
 			navbar.addEventListener('pointercancel', stopNavbarDrag);
 			window.addEventListener('scroll', updateNavbar, { passive: true });
