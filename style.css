@@ -252,7 +252,7 @@ h1 em::before { animation: glitch-slice 4.5s 1.5s steps(2, end) infinite; }
 .visual-putask { background: linear-gradient(135deg, #202225, #2e303a); }
 .visual-lurk { background: linear-gradient(135deg, #1c2021, #303638); }
 .modal-copy { align-self: start; padding: 18px 12px 18px 0; }
-.modal-close { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: rgba(18, 25, 31, .68); border: 1px solid rgba(190, 221, 244, .42); border-radius: 50%; color: var(--paper); cursor: pointer; font: 1.2rem/1 "DM Mono", monospace; grid-column: 1 / -1; grid-row: 1; height: 40px; justify-self: end; margin: 0 0 -40px auto; position: sticky; right: 0; top: 0; transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease; width: 40px; z-index: 3; }
+.modal-close { -webkit-tap-highlight-color: transparent; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: rgba(18, 25, 31, .68); border: 1px solid rgba(190, 221, 244, .42); border-radius: 50%; color: var(--paper); cursor: pointer; font: 1.2rem/1 "DM Mono", monospace; grid-column: 1 / -1; grid-row: 1; height: 44px; justify-self: end; margin: 0 0 -44px auto; min-height: 44px; min-width: 44px; padding: 0; position: sticky; right: 0; touch-action: manipulation; top: 0; transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease; width: 44px; z-index: 3; }
 .modal-close:hover { background: var(--paper); color: var(--ink); }
 .modal-kicker { color: var(--accent-blue); font: .68rem "DM Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
 .modal-copy h2 { font-size: clamp(2.4rem, 5vw, 5rem); margin: 24px 0; max-width: 520px; text-wrap: balance; }

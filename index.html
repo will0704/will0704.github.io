@@ -245,7 +245,9 @@
 				card.addEventListener('click', (event) => { if (!event.target.closest('a')) openProjectModal(card, index); });
 				card.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openProjectModal(card, index); } });
 			});
-			projectModal.querySelector('.modal-close').addEventListener('click', closeProjectModal);
+			const modalCloseButton = projectModal.querySelector('.modal-close');
+			modalCloseButton.addEventListener('click', closeProjectModal);
+			modalCloseButton.addEventListener('pointerup', (event) => { if (event.pointerType === 'touch') { event.preventDefault(); closeProjectModal(); } });
 			projectModal.addEventListener('click', (event) => { if (event.target === projectModal) closeProjectModal(); });
 			document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeProjectModal(); });
 		</script>
