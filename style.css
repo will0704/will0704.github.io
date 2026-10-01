@@ -173,8 +173,8 @@ h1 em::before { animation: glitch-slice 4.5s 1.5s steps(2, end) infinite; }
  .section-note { color: var(--soft); font-size: .9rem; }
 .section-note { animation: soft-flicker 7s ease-in-out infinite; }
 .card-container { display: grid; gap: 16px; grid-template-columns: repeat(4, 1fr); }
-.card { backdrop-filter: blur(18px) saturate(120%); -webkit-backdrop-filter: blur(18px) saturate(120%); background: rgba(25, 28, 31, .58); border: 1px solid rgba(241, 240, 235, .18); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 12px 35px rgba(0, 0, 0, .12); display: flex; flex-direction: column; min-height: 350px; overflow: hidden; padding: 27px; position: relative; transition: background .25s ease, border-color .25s ease, box-shadow .25s ease, transform .25s ease; }
-.card::before { background: linear-gradient(120deg, transparent 20%, rgba(241, 240, 235, .08), transparent 80%); content: ""; inset: 0; opacity: 0; pointer-events: none; position: absolute; transform: translateX(-100%); transition: opacity .25s ease, transform .65s ease; }
+.card { --pointer-x: 50%; --pointer-y: 50%; backdrop-filter: blur(18px) saturate(120%); -webkit-backdrop-filter: blur(18px) saturate(120%); background: rgba(25, 28, 31, .58); border: 1px solid rgba(241, 240, 235, .18); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 12px 35px rgba(0, 0, 0, .12); display: flex; flex-direction: column; min-height: 350px; overflow: hidden; padding: 27px; position: relative; transition: background .25s ease, border-color .25s ease, box-shadow .25s ease, transform .35s cubic-bezier(.2, .7, .2, 1); will-change: transform; }
+.card::before { background: radial-gradient(circle 180px at var(--pointer-x) var(--pointer-y), rgba(121, 184, 232, .16), transparent 72%), linear-gradient(120deg, transparent 20%, rgba(241, 240, 235, .08), transparent 80%); content: ""; inset: 0; opacity: 0; pointer-events: none; position: absolute; transform: translateX(-100%); transition: opacity .25s ease, transform .65s ease; }
 .card::after { background-position: center; background-repeat: no-repeat; background-size: cover; content: ""; height: 58%; opacity: .1; pointer-events: none; position: absolute; right: -6%; top: -8%; transform: rotate(5deg); transition: opacity .35s ease, transform .45s ease; width: 54%; }
 .card:nth-child(1)::after { background-image: url("images/avelon.png"); }
 .card:nth-child(2)::after { background-image: url("images/phinmawide.png"); }
@@ -183,9 +183,9 @@ h1 em::before { animation: glitch-slice 4.5s 1.5s steps(2, end) infinite; }
 .card:nth-child(5)::after { background-image: url("images/reviewkita.png"); }
 .card:nth-child(6)::after { background-image: url("images/putask.jpg"); }
 .card:nth-child(7)::after { background-image: url("images/Lurk.png"); }
-.card:hover { background: rgba(25, 28, 31, .72); border-color: var(--paper); box-shadow: 0 16px 45px rgba(0, 0, 0, .22); transform: translateY(-6px); }
+.card:hover { background: rgba(25, 28, 31, .72); border-color: var(--paper); box-shadow: 0 16px 45px rgba(0, 0, 0, .22); transform: perspective(900px) translateY(-6px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); }
 .card:hover::after { opacity: .2; transform: rotate(2deg) scale(1.04); }
-.card:hover::before { opacity: 1; transform: translateX(100%); }
+.card:hover::before { opacity: 1; transform: none; }
 .card > * { position: relative; z-index: 1; }
  .card-top { color: var(--soft); display: flex; justify-content: space-between; }
 .card-top span:last-child { animation: label-breathe 5s ease-in-out infinite; }
@@ -272,24 +272,6 @@ body.modal-open { overflow: hidden; }
 .skills-grid span { color: var(--paper); font-family: "DM Mono", monospace; font-size: .68rem; text-transform: uppercase; }
 .skills-grid p { margin-top: 7px; }
 
-.playground { border-top: 1px solid var(--line); padding: 78px 0 110px; }
-.mini-game { background: linear-gradient(135deg, rgba(25, 28, 31, .68), rgba(25, 28, 31, .38)); border: 1px solid rgba(190, 221, 244, .24); border-radius: 16px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .16); overflow: hidden; position: relative; }
-.mini-game::before { background: linear-gradient(115deg, rgba(121, 184, 232, .18), transparent 32%, transparent 68%, rgba(255, 255, 255, .08)); content: ""; inset: 0; pointer-events: none; position: absolute; }
-.game-topline, .game-controls { align-items: center; display: flex; justify-content: space-between; }
-.game-topline { border-bottom: 1px solid rgba(190, 221, 244, .18); color: var(--soft); font: .68rem "DM Mono", monospace; letter-spacing: .05em; padding: 17px 22px; text-transform: uppercase; }
-.game-topline span:first-child { color: var(--accent-blue); }
-.game-topline b { color: var(--paper); font-weight: 500; }
-.game-stage { min-height: 190px; padding: 42px 22px 34px; position: relative; text-align: center; }
-.game-prompt { color: var(--paper); font-size: clamp(1.8rem, 4vw, 3.4rem); font-weight: 600; letter-spacing: -.06em; min-height: 1.1em; }
-.game-options { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 28px; }
-.game-options button, .game-start { background: rgba(121, 184, 232, .08); border: 1px solid rgba(190, 221, 244, .28); border-radius: 999px; color: var(--paper); cursor: pointer; font: .68rem "DM Mono", monospace; letter-spacing: .04em; padding: 10px 14px; text-transform: uppercase; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
-.game-options button:hover:not(:disabled), .game-options button:focus-visible, .game-start:hover, .game-start:focus-visible { background: var(--accent-blue); border-color: var(--accent-blue); color: var(--ink); transform: translateY(-2px); }
-.game-options button:disabled { cursor: not-allowed; opacity: .38; }
-.game-controls { border-top: 1px solid rgba(190, 221, 244, .18); gap: 20px; padding: 16px 22px; }
-.game-feedback { color: var(--soft); font: .68rem "DM Mono", monospace; letter-spacing: .04em; text-transform: uppercase; }
-.game-start { background: var(--paper); color: var(--ink); }
-[data-theme="light"] .mini-game { background: linear-gradient(135deg, rgba(232, 240, 244, .72), rgba(210, 225, 233, .62)); border-color: rgba(40, 111, 156, .24); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .72), 0 24px 60px rgba(39, 73, 98, .12); }
-[data-theme="light"] .game-options button, [data-theme="light"] .game-start { background: rgba(40, 111, 156, .08); border-color: rgba(40, 111, 156, .3); }
  
  .contacts { border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1.4fr .8fr; padding: 105px 0 115px; }
 .contacts { background: linear-gradient(135deg, transparent 35%, var(--accent-blue-soft)); position: relative; }
@@ -418,6 +400,10 @@ body.modal-open { overflow: hidden; }
     transform: translateY(0);
 }
 
+.js .card.reveal.is-visible:hover {
+    transform: perspective(900px) translateY(-6px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+}
+
 .js .card.reveal:nth-child(2) { transition-delay: .08s; }
 .js .card.reveal:nth-child(3) { transition-delay: .16s; }
 .js .card.reveal:nth-child(4) { transition-delay: .24s; }
@@ -437,6 +423,7 @@ body.modal-open { overflow: hidden; }
     *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
     body::after { display: none; }
     .section-note, h1 em, h1 em::before, .contacts h2 em::before, .card-top span:last-child, .contact-details > a { animation: none; }
+    .card { transform: none !important; will-change: auto; }
 }
 
 @media (hover: none) {

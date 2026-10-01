@@ -15,7 +15,6 @@
 			<a class="brand" href="#top" aria-label="Will Anthony Barillo home">WAB<span>.</span></a>
 			<nav class="menu" aria-label="Main navigation">
 				<a href="#projects">Projects</a>
-				<a href="#playground">Playground</a>
 				<a href="#contacts">Contacts</a>
 			</nav>
 			<span class="availability"><i></i> Available for opportunities</span>
@@ -75,17 +74,8 @@
 				<div class="skills-block"><p class="eyebrow">Technical toolkit</p><div class="skills-grid"><div><span>Languages</span><p>HTML · Java · CSS · Kotlin · TypeScript · JavaScript · Python · PHP</p></div><div><span>Frameworks</span><p>Flutter · React · Tailwind · Django · FastAPI · Vite · Laravel · Chart.js · Compose Multiplatform</p></div><div><span>Databases</span><p>MySQL · MongoDB</p></div><div><span>Tools & concepts</span><p>Git · GitHub · Postman · Figma · VS Code · Google Cloud · Unity · Software Development · Web Development · UI/UX · Data Analysis</p></div></div></div>
 			</section>
 
-			<section id="playground" class="playground reveal">
-				<div class="section-heading"><p class="eyebrow">04 / Interactive lab</p><p class="section-note">A quick signal sort<br>from the stack.</p></div>
-				<div class="mini-game" aria-labelledby="game-title">
-					<div class="game-topline"><span id="game-title">Signal Sort</span><span>Round <b class="game-round">0</b> / 5</span><span>Score <b class="game-score">0</b></span></div>
-					<div class="game-stage"><p class="game-prompt">Press start to begin.</p><div class="game-options" role="group" aria-label="Choose a technology category"><button type="button" data-category="frontend" disabled>Frontend</button><button type="button" data-category="backend" disabled>Backend</button><button type="button" data-category="data" disabled>Data &amp; AI</button></div></div>
-					<div class="game-controls"><p class="game-feedback" aria-live="polite">Five signals. One stack.</p><button class="game-start" type="button">Start game</button></div>
-				</div>
-			</section>
-
 			<section id="contacts" class="contacts reveal">
-				<p class="eyebrow">03 / Say hello</p>
+				<p class="eyebrow">04 / Say hello</p>
 				<h2>Have a good idea?<br><em class="glitch-text" data-text="Let's build it well.">Let's build it well.</em></h2>
 				<div class="contact-details"><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=bwillanthony@gmail.com&amp;su=Portfolio%20inquiry&amp;body=Hi%20Will%2C%0A%0A" target="_blank" rel="noopener noreferrer">bwillanthony@gmail.com</a><span>+63 945 310 9171 · Pangasinan, PH</span><div><a href="https://www.linkedin.com/in/will-barillo">LinkedIn</a><a href="https://github.com/will0704">GitHub</a></div></div>
 			</section>
@@ -138,6 +128,23 @@
 
 			const projectYears = ['2026', '2025', '2025', '2025', 'Additional', 'Additional', 'Additional'];
 			const projectCards = [...document.querySelectorAll('.card')];
+			if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
+				projectCards.forEach((card) => {
+					card.addEventListener('pointermove', (event) => {
+						const bounds = card.getBoundingClientRect();
+						const x = (event.clientX - bounds.left) / bounds.width;
+						const y = (event.clientY - bounds.top) / bounds.height;
+						card.style.setProperty('--pointer-x', `${x * 100}%`);
+						card.style.setProperty('--pointer-y', `${y * 100}%`);
+						card.style.setProperty('--tilt-x', `${(0.5 - y) * 2}deg`);
+						card.style.setProperty('--tilt-y', `${(x - 0.5) * 2}deg`);
+					});
+					card.addEventListener('pointerleave', () => {
+						card.style.removeProperty('--tilt-x');
+						card.style.removeProperty('--tilt-y');
+					});
+				});
+			}
 			const projectModal = document.createElement('div');
 			projectModal.className = 'project-modal';
 			projectModal.setAttribute('aria-hidden', 'true');
@@ -189,14 +196,6 @@
 			projectModal.querySelector('.modal-close').addEventListener('click', closeProjectModal);
 			projectModal.addEventListener('click', (event) => { if (event.target === projectModal) closeProjectModal(); });
 			document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeProjectModal(); });
-			const gameSignals = [{ name: 'React', category: 'frontend' }, { name: 'FastAPI', category: 'backend' }, { name: 'LSTM risk model', category: 'data' }, { name: 'TypeScript', category: 'frontend' }, { name: 'PostgreSQL', category: 'backend' }, { name: 'Stablecoin anomaly detection', category: 'data' }, { name: 'Flutter', category: 'frontend' }];
-			const gamePrompt = document.querySelector('.game-prompt'); const gameFeedback = document.querySelector('.game-feedback'); const gameRound = document.querySelector('.game-round'); const gameScore = document.querySelector('.game-score'); const gameStart = document.querySelector('.game-start'); const gameOptions = [...document.querySelectorAll('.game-options button')];
-			let gameState = { active: false, round: 0, score: 0, signal: null, timer: null };
-			const nextSignal = () => { gameState.signal = gameSignals[Math.floor(Math.random() * gameSignals.length)]; gamePrompt.textContent = gameState.signal.name; gameRound.textContent = gameState.round; gameScore.textContent = gameState.score; };
-			const endGame = () => { clearTimeout(gameState.timer); gameState.active = false; gameOptions.forEach((button) => { button.disabled = true; }); gamePrompt.textContent = `Final score: ${gameState.score} / 5`; gameFeedback.textContent = gameState.score >= 4 ? 'Sharp signal reading.' : 'Good run. Try another pass.'; gameStart.textContent = 'Play again'; };
-			const answerGame = (category) => { if (!gameState.active) return; clearTimeout(gameState.timer); gameState.score += category === gameState.signal.category ? 1 : 0; gameState.round += 1; if (gameState.round > 5) { endGame(); return; } gameFeedback.textContent = category === gameState.signal.category ? 'Correct signal.' : `That signal belongs to ${gameState.signal.category === 'data' ? 'Data & AI' : gameState.signal.category}.`; nextSignal(); gameState.timer = setTimeout(() => answerGame(''), 3500); };
-			gameStart.addEventListener('click', () => { gameState = { active: true, round: 1, score: 0, signal: null, timer: null }; gameOptions.forEach((button) => { button.disabled = false; }); gameFeedback.textContent = 'Sort the signal.'; gameStart.textContent = 'Restart'; nextSignal(); });
-			gameOptions.forEach((button) => button.addEventListener('click', () => answerGame(button.dataset.category)));
 		</script>
 	</body>
 </html>
