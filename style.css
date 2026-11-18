@@ -302,8 +302,13 @@ body.modal-open { overflow: hidden; }
 .profile-grid li span { color: var(--soft); font-family: "DM Mono", monospace; font-size: .68rem; }
 .skills-block { border-top: 1px solid var(--line); margin-top: 58px; padding-top: 28px; }
 .skills-grid { display: grid; gap: 24px 8%; grid-template-columns: 1fr 1fr; margin-top: 24px; }
-.skills-grid span { color: var(--paper); font-family: "DM Mono", monospace; font-size: .68rem; text-transform: uppercase; }
-.skills-grid p { margin-top: 7px; }
+.skills-grid > div > span { color: var(--paper); font-family: "DM Mono", monospace; font-size: .68rem; text-transform: uppercase; }
+.skill-items { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.skill-item { align-items: center; background: rgba(121, 184, 232, .055); border: 1px solid var(--line); border-radius: 6px; color: var(--muted-paper); display: inline-flex; font: .7rem "DM Mono", monospace; gap: 8px; padding: 8px 10px; transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease; }
+.skill-item i { font-size: 1rem; line-height: 1; }
+.skill-item:hover { background: var(--accent-blue-soft); border-color: var(--accent-blue); color: var(--paper); transform: translateY(-2px); }
+.skill-item--text { border-style: dashed; }
+[data-theme="light"] .skill-item { background: rgba(40, 111, 156, .06); }
 
  
  .contacts { border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1.4fr .8fr; padding: 105px 0 115px; }
@@ -525,4 +530,3 @@ body.modal-open { overflow: hidden; }
 @media (hover: none) and (prefers-reduced-motion: reduce) {
     body::after, .card, .card::before { animation: none; }
 }
-
