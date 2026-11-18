@@ -76,6 +76,22 @@ body::after {
     will-change: transform, opacity;
     z-index: -1;
 }
+
+@supports (view-transition-name: root) {
+    :root { view-transition-name: root; }
+    ::view-transition-group(root) { animation-duration: .55s; }
+    ::view-transition-old(root) { animation: theme-old .55s ease both; }
+    ::view-transition-new(root) { animation: theme-reveal .55s cubic-bezier(.2, .75, .2, 1) both; }
+}
+
+@keyframes theme-old {
+    to { opacity: .94; }
+}
+
+@keyframes theme-reveal {
+    from { clip-path: circle(0 at var(--theme-origin-x) var(--theme-origin-y)); }
+    to { clip-path: circle(var(--theme-reveal-radius) at var(--theme-origin-x) var(--theme-origin-y)); }
+}
  
  a { color: inherit; }
 
