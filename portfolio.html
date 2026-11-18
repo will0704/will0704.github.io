@@ -69,10 +69,11 @@
 			const spotlightDescription = spotlight.querySelector('.spotlight-description');
 			const spotlightProjects = spotlight.querySelector('.spotlight-project-list');
 			const skillItems = [...document.querySelectorAll('.skill-item')];
-			const selectSkill = (skill) => { const name = skill.textContent.trim(); skillItems.forEach((item) => { const selected = item === skill; item.classList.toggle('is-selected', selected); item.setAttribute('aria-pressed', selected); }); spotlightTitle.textContent = name; spotlightDescription.textContent = skillDescriptions[name] || 'A useful part of the toolkit behind my web, mobile, and data projects.'; const icon = skill.querySelector('i'); spotlightIcon.className = icon ? icon.className : ''; spotlightIcon.textContent = icon ? '' : '?'; spotlightProjects.innerHTML = ''; const matchingProjects = [...document.querySelectorAll('.card')].filter((card) => [...card.querySelectorAll('.card-tags span')].some((tag) => tag.textContent.trim().toLowerCase() === name.toLowerCase())); matchingProjects.forEach((card) => { const link = document.createElement('a'); link.href = '#projects'; link.textContent = card.querySelector('h2').textContent.trim(); link.addEventListener('click', () => card.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' })); spotlightProjects.append(link); }); if (!matchingProjects.length) spotlightProjects.innerHTML = '<span class="spotlight-empty">Part of the broader technical foundation.</span>'; };
+			const projectImages = { Avelon: 'images/avelon.png', AnchorWatch: 'images/anchorwatch.png', BrightSteps: 'images/brightsteps.png', 'PHINMA Education Wide Evaluation System': 'images/phinmawide.png', PuTask: 'images/putask.jpg', ReviewKita: 'images/reviewkita.png', Lurk: 'images/Lurk.png' };
+			const selectSkill = (skill) => { const name = skill.textContent.trim(); skillItems.forEach((item) => { const selected = item === skill; item.classList.toggle('is-selected', selected); item.setAttribute('aria-pressed', selected); }); spotlightTitle.textContent = name; spotlightDescription.textContent = skillDescriptions[name] || 'A useful part of the toolkit behind my web, mobile, and data projects.'; const icon = skill.querySelector('i'); spotlightIcon.className = icon ? icon.className : ''; spotlightIcon.textContent = icon ? '' : '?'; spotlightProjects.innerHTML = ''; const matchingProjects = [...document.querySelectorAll('.card')].filter((card) => [...card.querySelectorAll('.card-tags span')].some((tag) => tag.textContent.trim().toLowerCase() === name.toLowerCase())); matchingProjects.forEach((card) => { const title = card.querySelector('h2').textContent.trim(); const link = document.createElement('a'); const image = document.createElement('img'); link.className = 'spotlight-project-link'; link.href = '#projects'; image.src = projectImages[title] || ''; image.alt = ''; image.loading = 'lazy'; image.decoding = 'async'; link.append(image, document.createTextNode(title)); link.addEventListener('click', () => card.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' })); spotlightProjects.append(link); }); if (!matchingProjects.length) spotlightProjects.innerHTML = '<span class="spotlight-empty">Part of the broader technical foundation.</span>'; };
 			skillItems.forEach((skill) => { skill.setAttribute('role', 'button'); skill.setAttribute('tabindex', '0'); skill.setAttribute('aria-pressed', 'false'); skill.addEventListener('click', () => selectSkill(skill)); skill.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectSkill(skill); } }); });
 			const techWall = document.querySelector('.tech-wall');
-			skillItems.concat(Array.from({ length: 12 })).forEach((skill, index) => { const cube = document.createElement('button'); cube.className = 'tech-cube'; if (skill) { const icon = skill.querySelector('i'); cube.innerHTML = `<span class="cube-face cube-face--front">${icon ? `<i class="${icon.className}" aria-hidden="true"></i>` : '<i aria-hidden="true">◈</i>'}<span class="cube-label">${skill.textContent.trim()}</span></span><span class="cube-face cube-face--back"></span><span class="cube-face cube-face--top"></span><span class="cube-face cube-face--bottom"></span><span class="cube-face cube-face--left"></span><span class="cube-face cube-face--right"></span>`; const setHologramColor = () => cube.style.setProperty('--holo-color', getComputedStyle(icon || cube.querySelector('.cube-face--front i')).color); cube.addEventListener('mouseenter', () => { setHologramColor(); selectSkill(skill); }); cube.addEventListener('focus', () => { setHologramColor(); selectSkill(skill); }); cube.addEventListener('mouseleave', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'TypeScript') || skillItems[0])); cube.addEventListener('blur', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'TypeScript') || skillItems[0])); cube.setAttribute('aria-label', `Preview ${skill.textContent.trim()}`); } else { cube.classList.add('is-unknown'); cube.innerHTML = '<span class="cube-face cube-face--front"><strong aria-hidden="true">?</strong><span class="cube-label">More soon</span></span><span class="cube-face cube-face--back"></span><span class="cube-face cube-face--top"></span><span class="cube-face cube-face--bottom"></span><span class="cube-face cube-face--left"></span><span class="cube-face cube-face--right"></span>'; cube.setAttribute('aria-label', 'More technologies coming soon'); } cube.style.setProperty('--cube-index', index); techWall.append(cube); });
+			skillItems.concat(Array.from({ length: 12 })).forEach((skill, index) => { const cube = document.createElement('button'); cube.className = 'tech-cube'; if (skill) { const icon = skill.querySelector('i'); cube.innerHTML = `<span class="cube-face cube-face--front">${icon ? `<i class="${icon.className}" aria-hidden="true"></i>` : '<i aria-hidden="true">◈</i>'}<span class="cube-label">${skill.textContent.trim()}</span></span><span class="cube-face cube-face--back"></span><span class="cube-face cube-face--top"></span><span class="cube-face cube-face--bottom"></span><span class="cube-face cube-face--left"></span><span class="cube-face cube-face--right"></span>`; const setHologramColor = () => cube.style.setProperty('--holo-color', getComputedStyle(icon || cube.querySelector('.cube-face--front i')).color); cube.addEventListener('mouseenter', () => { setHologramColor(); selectSkill(skill); }); cube.addEventListener('focus', () => { setHologramColor(); selectSkill(skill); }); cube.addEventListener('mouseleave', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'HTML') || skillItems[0])); cube.addEventListener('blur', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'HTML') || skillItems[0])); cube.setAttribute('aria-label', `Preview ${skill.textContent.trim()}`); } else { cube.classList.add('is-unknown'); cube.innerHTML = '<span class="cube-face cube-face--front"><strong aria-hidden="true">?</strong><span class="cube-label">More soon</span></span><span class="cube-face cube-face--back"></span><span class="cube-face cube-face--top"></span><span class="cube-face cube-face--bottom"></span><span class="cube-face cube-face--left"></span><span class="cube-face cube-face--right"></span>'; cube.setAttribute('aria-label', 'More technologies coming soon'); } cube.style.setProperty('--cube-index', index); techWall.append(cube); });
 			const progress = document.createElement('div');
 			progress.className = 'scroll-progress';
 			progress.setAttribute('aria-hidden', 'true');
@@ -81,13 +82,15 @@
 			const revealItems = document.querySelectorAll('.home-section, .hero, .projects, .contacts, .cv-details, .card, .experience-item, .profile-grid > div, .skills-grid > div, footer');
 			revealItems.forEach((item) => item.classList.add('reveal'));
 			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			selectSkill(skillItems.find((skill) => skill.textContent.trim() === 'TypeScript') || skillItems[0]);
+			selectSkill(skillItems.find((skill) => skill.textContent.trim() === 'HTML') || skillItems[0]);
 			if (reduceMotion) revealItems.forEach((item) => item.classList.add('is-visible'));
 			else {
 				const revealObserver = new IntersectionObserver((entries, observer) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }), { threshold: 0.12, rootMargin: '0px 0px -40px' });
 				revealItems.forEach((item) => revealObserver.observe(item));
 			}
 			const updateProgress = () => { const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight; progress.firstElementChild.style.transform = `scaleX(${scrollableHeight ? window.scrollY / scrollableHeight : 0})`; };
+			let scrollFrame = 0;
+			const scheduleScrollUpdate = () => { if (scrollFrame) return; scrollFrame = requestAnimationFrame(() => { scrollFrame = 0; updateNavbar(); updateProgress(); }); };
 			let lastScrollY = window.scrollY;
 			let navbarWasPressed = false;
 			const mobilePortraitQuery = window.matchMedia('(max-width: 760px) and (orientation: portrait)');
@@ -137,9 +140,8 @@
 			const stopNavbarDrag = (event) => { if (!dragState || dragState.pointerId !== event.pointerId) return; navbar.classList.remove('is-dragging'); if (navbarWasDragged) { const bounds = navbar.getBoundingClientRect(); const edgeLeft = bounds.left + bounds.width / 2 < window.innerWidth / 2 ? 8 : window.innerWidth - bounds.width - 8; navbar.classList.add('has-custom-position'); navbar.style.left = `${edgeLeft}px`; navbar.style.right = 'auto'; } dragState = null; };
 			navbar.addEventListener('pointerup', stopNavbarDrag);
 			navbar.addEventListener('pointercancel', stopNavbarDrag);
-			window.addEventListener('scroll', updateNavbar, { passive: true });
+			window.addEventListener('scroll', scheduleScrollUpdate, { passive: true });
 			mobilePortraitQuery.addEventListener('change', updateNavbar);
-			window.addEventListener('scroll', updateProgress, { passive: true });
 			updateProgress();
 			const navLinks = [...document.querySelectorAll('.menu a')];
 			const observedSections = navLinks.map((link) => document.querySelector(link.hash)).filter(Boolean);
@@ -148,17 +150,28 @@
 			}), { rootMargin: '-35% 0px -55%', threshold: 0 });
 			observedSections.forEach((section) => sectionObserver.observe(section));
 			if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
+				let pointerFrame = 0;
+				let pointerX = 0;
+				let pointerY = 0;
 				document.addEventListener('pointermove', (event) => {
-					document.body.style.setProperty('--spot-x', `${event.clientX}px`);
-					document.body.style.setProperty('--spot-y', `${event.clientY}px`);
+					pointerX = event.clientX;
+					pointerY = event.clientY;
+					if (pointerFrame) return;
+					pointerFrame = requestAnimationFrame(() => {
+						pointerFrame = 0;
+						document.body.style.setProperty('--spot-x', `${pointerX}px`);
+						document.body.style.setProperty('--spot-y', `${pointerY}px`);
+					});
 				});
 			}
 			const projectYears = ['2026', '2025', '2025', '2025', 'Additional', 'Additional', 'Additional'];
 			const projectCards = [...document.querySelectorAll('.card')];
 			if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
 				projectCards.forEach((card) => {
+					let cardBounds;
+					card.addEventListener('pointerenter', () => { cardBounds = card.getBoundingClientRect(); });
 					card.addEventListener('pointermove', (event) => {
-						const bounds = card.getBoundingClientRect();
+						const bounds = cardBounds || card.getBoundingClientRect();
 						const x = (event.clientX - bounds.left) / bounds.width;
 						const y = (event.clientY - bounds.top) / bounds.height;
 						card.style.setProperty('--pointer-x', `${x * 100}%`);
@@ -177,7 +190,6 @@
 			projectModal.innerHTML = '<div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" type="button" aria-label="Close project details">×</button><div class="modal-visual"><img class="modal-image" alt=""></div><div class="modal-copy"><p class="modal-kicker"></p><h2 id="modal-title"></h2><p class="modal-description"></p><div class="modal-tech"></div><div class="modal-details"></div><p class="modal-hint">Press Escape or close to return</p></div></div>';
 			document.body.append(projectModal);
 			const modalTitle = projectModal.querySelector('#modal-title'); const modalKicker = projectModal.querySelector('.modal-kicker'); const modalDescription = projectModal.querySelector('.modal-description'); const modalTech = projectModal.querySelector('.modal-tech'); const modalDetails = projectModal.querySelector('.modal-details'); const modalVisual = projectModal.querySelector('.modal-visual'); const modalImage = projectModal.querySelector('.modal-image');
-			const projectImages = { Avelon: 'images/avelon.png', AnchorWatch: 'images/anchorwatch.png', BrightSteps: 'images/brightsteps.png', 'PHINMA Education Wide Evaluation System': 'images/phinmawide.png', PuTask: 'images/putask.jpg', ReviewKita: 'images/reviewkita.png', Lurk: 'images/Lurk.png' };
 			const projectDetails = { Avelon: { role: 'Project Manager / Frontend', highlights: ['LSTM/GRU models support borrower eligibility and ETH volatility scoring.', 'Smart contracts manage deposits, repayment, collateral, and automatic liquidation.', 'The product targets a 150% minimum collateral ratio with real-time loan monitoring.'] }, 'PHINMA Education Wide Evaluation System': { role: 'Frontend Developer', highlights: ['Role-based workflows support IT, HR, Deans, Program Heads, and Active Learning Coordinators.', 'Student Feedback Form, Supervisor Rating, and COPUS Analytics support evaluation and classroom observation.', 'React/Vite frontend and Django/PostgreSQL/Redis services support local and production deployment.'] }, AnchorWatch: { role: 'Frontend / Backend Developer', highlights: ['Real-time visualizations connect stablecoin activity with GDP, inflation, and interest rates.', 'React/TypeScript powers the administrative web application while Flutter supports Android and iOS users.', 'The platform helps users identify abnormal trends across blockchain assets and economic health.'] }, BrightSteps: { role: 'Frontend Developer', highlights: ['The lending flow covers borrower access, loan processing, repayment, and administrative monitoring.', 'Ethereum wallet connectivity supports blockchain-verified transactions and smart-contract interactions.', 'The project was recognized for web development, app development, and UI/UX design.'] }, ReviewKita: { role: 'UI/UX Designer / Frontend Developer', highlights: ['Students can upload notes, highlight key sections, and generate summaries.', 'AI-generated quizzes and flashcards support faster review and stronger retention.', 'Progress tracking, reminders, badges, streaks, leaderboards, and rewards add a gamified study loop.'] }, PuTask: { role: 'Backend Developer', highlights: ['Users can create tasks, assign categories, manage deadlines, and track overdue work.', 'Calendar views and detailed analytics turn task history into actionable productivity insights.', 'The proposal is designed for both individual users and teams.'] }, Lurk: { role: 'Game Developer', highlights: ['Oxygen tanks are both the survival timer and the central quota objective.', 'Runs escalate from quiet scouting to expanding maps, rising quotas, and multiplying specimens.', 'Enemy behavior and environmental hints reveal threats through sound, whispers, and priority attacks.'] } };
 			const renderModalDetails = (title) => { const details = projectDetails[title]; modalDetails.innerHTML = `<p class="modal-role">${details.role}</p><p class="modal-details-label">Project highlights</p><ul>${details.highlights.map((highlight) => `<li>${highlight}</li>`).join('')}</ul>`; };
 			const modalDetailsObserver = new MutationObserver(() => { if (projectModal.classList.contains('is-open')) renderModalDetails(modalTitle.textContent); });

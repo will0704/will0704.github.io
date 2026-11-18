@@ -244,7 +244,7 @@ h1 em::before { animation: glitch-slice 4.5s 1.5s steps(2, end) infinite; }
  .section-note { color: var(--soft); font-size: .9rem; }
 .section-note { animation: soft-flicker 7s ease-in-out infinite; }
 .card-container { display: grid; gap: 16px; grid-template-columns: repeat(4, 1fr); }
-.card { --pointer-x: 50%; --pointer-y: 50%; backdrop-filter: blur(18px) saturate(120%); -webkit-backdrop-filter: blur(18px) saturate(120%); background: rgba(25, 28, 31, .58); border: 1px solid rgba(241, 240, 235, .18); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 12px 35px rgba(0, 0, 0, .12); display: flex; flex-direction: column; min-height: 350px; overflow: hidden; padding: 27px; position: relative; transition: background .25s ease, border-color .25s ease, box-shadow .25s ease, transform .35s cubic-bezier(.2, .7, .2, 1); will-change: transform; }
+.card { --pointer-x: 50%; --pointer-y: 50%; backdrop-filter: blur(18px) saturate(120%); -webkit-backdrop-filter: blur(18px) saturate(120%); background: rgba(25, 28, 31, .58); border: 1px solid rgba(241, 240, 235, .18); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 12px 35px rgba(0, 0, 0, .12); contain: layout paint; display: flex; flex-direction: column; min-height: 350px; overflow: hidden; padding: 27px; position: relative; transition: background .25s ease, border-color .25s ease, box-shadow .25s ease, transform .35s cubic-bezier(.2, .7, .2, 1); will-change: transform; }
 .card::before { background: radial-gradient(circle 180px at var(--pointer-x) var(--pointer-y), rgba(121, 184, 232, .16), transparent 72%), linear-gradient(120deg, transparent 20%, rgba(241, 240, 235, .08), transparent 80%); content: ""; inset: 0; opacity: 0; pointer-events: none; position: absolute; transform: translateX(-100%); transition: opacity .25s ease, transform .65s ease; }
 .card::after { background-position: center; background-repeat: no-repeat; background-size: cover; content: ""; height: 58%; opacity: .1; pointer-events: none; position: absolute; right: -6%; top: -8%; transform: rotate(5deg); transition: opacity .35s ease, transform .45s ease; width: 54%; }
 .card:nth-child(1)::after { background-image: url("images/avelon.png"); }
@@ -383,8 +383,10 @@ body.modal-open { overflow: hidden; }
 .spotlight-description { color: var(--soft); font-size: .88rem; max-width: 620px; }
 .spotlight-projects { margin-top: 22px; }
 .spotlight-projects > span { color: var(--paper); font: .68rem "DM Mono", monospace; text-transform: uppercase; }
-.spotlight-project-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-.spotlight-project-list a { border-bottom: 1px solid var(--accent-blue); color: var(--muted-paper); font-size: .8rem; padding-bottom: 2px; text-decoration: none; transition: color .2s ease; }
+.spotlight-project-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.spotlight-project-list a { border-bottom: 1px solid var(--accent-blue); color: var(--muted-paper); font-size: .8rem; padding: 5px 0 7px; text-decoration: none; transition: color .2s ease; }
+.spotlight-project-link { align-items: center; display: flex; gap: 10px; }
+.spotlight-project-link img { background: rgba(255, 255, 255, .06); border: 1px solid var(--line); border-radius: 5px; height: 30px; object-fit: cover; width: 42px; }
 .spotlight-project-list a:hover, .spotlight-project-list a:focus-visible { color: var(--accent-blue); }
 .skill-item.is-selected { background: var(--accent-blue-soft); border-color: var(--accent-blue); color: var(--paper); }
 .skill-item:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 3px; }
@@ -559,6 +561,8 @@ body.modal-open { overflow: hidden; }
      .section-note { margin-top: 20px; }
      .card-container { grid-template-columns: 1fr; }
      .card { min-height: 300px; }
+    body::before { animation-duration: 60s; }
+    .navbar, .card { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
     .project-modal { padding: 14px; }
     .modal-panel { display: flex; max-height: calc(100vh - 28px); padding: 20px 14px 14px; }
     .modal-close { margin-left: calc(100% - 40px); margin-right: 0; }

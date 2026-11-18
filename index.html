@@ -169,6 +169,7 @@
 			const spotlightDescription = spotlight.querySelector('.spotlight-description');
 			const spotlightProjects = spotlight.querySelector('.spotlight-project-list');
 			const skillItems = [...document.querySelectorAll('.skill-item')];
+			const projectImages = { Avelon: 'images/avelon.png', AnchorWatch: 'images/anchorwatch.png', BrightSteps: 'images/brightsteps.png', 'PHINMA Education Wide Evaluation System': 'images/phinmawide.png', PuTask: 'images/putask.jpg', ReviewKita: 'images/reviewkita.png', Lurk: 'images/Lurk.png' };
 			const selectSkill = (skill) => {
 				const name = skill.textContent.trim();
 				skillItems.forEach((item) => { const selected = item === skill; item.classList.toggle('is-selected', selected); item.setAttribute('aria-pressed', selected); });
@@ -179,7 +180,7 @@
 				spotlightIcon.textContent = icon ? '' : '?';
 				spotlightProjects.innerHTML = '';
 				const matchingProjects = [...document.querySelectorAll('.card')].filter((card) => [...card.querySelectorAll('.card-tags span')].some((tag) => tag.textContent.trim().toLowerCase() === name.toLowerCase()));
-				matchingProjects.forEach((card) => { const link = document.createElement('a'); link.href = '#projects'; link.textContent = card.querySelector('h2').textContent.trim(); link.addEventListener('click', () => card.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' })); spotlightProjects.append(link); });
+				matchingProjects.forEach((card) => { const title = card.querySelector('h2').textContent.trim(); const link = document.createElement('a'); const image = document.createElement('img'); link.className = 'spotlight-project-link'; link.href = '#projects'; image.src = projectImages[title] || ''; image.alt = ''; image.loading = 'lazy'; image.decoding = 'async'; link.append(image, document.createTextNode(title)); link.addEventListener('click', () => card.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' })); spotlightProjects.append(link); });
 				if (!matchingProjects.length) spotlightProjects.innerHTML = '<span class="spotlight-empty">Part of the broader technical foundation.</span>';
 			};
 			skillItems.forEach((skill) => { skill.setAttribute('role', 'button'); skill.setAttribute('tabindex', '0'); skill.setAttribute('aria-pressed', 'false'); skill.addEventListener('click', () => selectSkill(skill)); skill.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectSkill(skill); } }); });
@@ -193,8 +194,8 @@
 					const setHologramColor = () => cube.style.setProperty('--holo-color', getComputedStyle(icon || cube.querySelector('.cube-face--front i')).color);
 					cube.addEventListener('mouseenter', () => { setHologramColor(); selectSkill(skill); });
 					cube.addEventListener('focus', () => { setHologramColor(); selectSkill(skill); });
-					cube.addEventListener('mouseleave', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'TypeScript') || skillItems[0]));
-					cube.addEventListener('blur', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'TypeScript') || skillItems[0]));
+					cube.addEventListener('mouseleave', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'HTML') || skillItems[0]));
+					cube.addEventListener('blur', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'HTML') || skillItems[0]));
 					cube.setAttribute('aria-label', `Preview ${skill.textContent.trim()}`);
 				} else {
 					cube.classList.add('is-unknown');
@@ -208,7 +209,7 @@
 			revealItems.forEach((item) => item.classList.add('reveal'));
 			const progressBar = document.querySelector('.scroll-progress span');
 			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			selectSkill(skillItems.find((skill) => skill.textContent.trim() === 'TypeScript') || skillItems[0]);
+			selectSkill(skillItems.find((skill) => skill.textContent.trim() === 'HTML') || skillItems[0]);
 
 			if (reduceMotion) {
 				revealItems.forEach((item) => item.classList.add('is-visible'));
@@ -227,6 +228,11 @@
 			const updateProgress = () => {
 				const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
 				progressBar.style.transform = `scaleX(${scrollableHeight ? window.scrollY / scrollableHeight : 0})`;
+			};
+			let scrollFrame = 0;
+			const scheduleScrollUpdate = () => {
+				if (scrollFrame) return;
+				scrollFrame = requestAnimationFrame(() => { scrollFrame = 0; updateNavbar(); updateProgress(); });
 			};
 			let lastScrollY = window.scrollY;
 			let navbarWasPressed = false;
@@ -277,9 +283,8 @@
 			const stopNavbarDrag = (event) => { if (!dragState || dragState.pointerId !== event.pointerId) return; navbar.classList.remove('is-dragging'); if (navbarWasDragged) { const bounds = navbar.getBoundingClientRect(); const edgeLeft = bounds.left + bounds.width / 2 < window.innerWidth / 2 ? 8 : window.innerWidth - bounds.width - 8; navbar.classList.add('has-custom-position'); navbar.style.left = `${edgeLeft}px`; navbar.style.right = 'auto'; } dragState = null; };
 			navbar.addEventListener('pointerup', stopNavbarDrag);
 			navbar.addEventListener('pointercancel', stopNavbarDrag);
-			window.addEventListener('scroll', updateNavbar, { passive: true });
+			window.addEventListener('scroll', scheduleScrollUpdate, { passive: true });
 			mobilePortraitQuery.addEventListener('change', updateNavbar);
-			window.addEventListener('scroll', updateProgress, { passive: true });
 			updateProgress();
 			const navLinks = [...document.querySelectorAll('.menu a')];
 			const observedSections = navLinks.map((link) => document.querySelector(link.hash)).filter(Boolean);
@@ -288,9 +293,18 @@
 			}), { rootMargin: '-35% 0px -55%', threshold: 0 });
 			observedSections.forEach((section) => sectionObserver.observe(section));
 			if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
+				let pointerFrame = 0;
+				let pointerX = 0;
+				let pointerY = 0;
 				document.addEventListener('pointermove', (event) => {
-					document.body.style.setProperty('--spot-x', `${event.clientX}px`);
-					document.body.style.setProperty('--spot-y', `${event.clientY}px`);
+					pointerX = event.clientX;
+					pointerY = event.clientY;
+					if (pointerFrame) return;
+					pointerFrame = requestAnimationFrame(() => {
+						pointerFrame = 0;
+						document.body.style.setProperty('--spot-x', `${pointerX}px`);
+						document.body.style.setProperty('--spot-y', `${pointerY}px`);
+					});
 				});
 			}
 
@@ -298,8 +312,10 @@
 			const projectCards = [...document.querySelectorAll('.card')];
 			if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
 				projectCards.forEach((card) => {
+					let cardBounds;
+					card.addEventListener('pointerenter', () => { cardBounds = card.getBoundingClientRect(); });
 					card.addEventListener('pointermove', (event) => {
-						const bounds = card.getBoundingClientRect();
+						const bounds = cardBounds || card.getBoundingClientRect();
 						const x = (event.clientX - bounds.left) / bounds.width;
 						const y = (event.clientY - bounds.top) / bounds.height;
 						card.style.setProperty('--pointer-x', `${x * 100}%`);
@@ -325,7 +341,6 @@
 			const modalDetails = projectModal.querySelector('.modal-details');
 			const modalVisual = projectModal.querySelector('.modal-visual');
 			const modalImage = projectModal.querySelector('.modal-image');
-			const projectImages = { Avelon: 'images/avelon.png', AnchorWatch: 'images/anchorwatch.png', BrightSteps: 'images/brightsteps.png', 'PHINMA Education Wide Evaluation System': 'images/phinmawide.png', PuTask: 'images/putask.jpg', ReviewKita: 'images/reviewkita.png', Lurk: 'images/Lurk.png' };
 			const projectDetails = {
 				Avelon: { role: 'Project Manager / Frontend', summary: 'A full-stack crypto lending platform that combines AI risk assessment with transparent Ethereum lending rules.', highlights: ['LSTM/GRU models support borrower eligibility and ETH volatility scoring.', 'Smart contracts manage deposits, repayment, collateral, and automatic liquidation.', 'The product targets a 150% minimum collateral ratio with real-time loan monitoring.'] },
 				'PHINMA Education Wide Evaluation System': { role: 'Frontend Developer', summary: 'A multi-campus academic operations system connecting student feedback, supervisor ratings, HR management, and COPUS analytics.', highlights: ['Role-based workflows support IT, HR, Deans, Program Heads, and Active Learning Coordinators.', 'Student Feedback Form, Supervisor Rating, and COPUS Analytics support evaluation and classroom observation.', 'React/Vite frontend and Django/PostgreSQL/Redis services support local and production deployment.'] },
