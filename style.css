@@ -208,9 +208,10 @@ body::after {
  .home-scroll-cue { align-items: center; bottom: 16px; color: var(--soft); display: flex; font: .62rem "DM Mono", monospace; gap: 12px; left: 0; position: absolute; text-decoration: none; text-transform: uppercase; }
  .home-scroll-cue i { align-items: center; border: 1px solid var(--line); border-radius: 50%; display: inline-flex; font-size: 1rem; font-style: normal; height: 30px; justify-content: center; width: 30px; }
  .home-scroll-cue:hover { color: var(--accent-blue); }
+ .js .home-section.reveal { opacity: 1; transform: none; transition: none; }
  .hero { min-height: 610px; overflow: hidden; padding: 110px 0 48px; position: relative; }
- #about { background: linear-gradient(to bottom, transparent 0, var(--ink) 170px); margin-top: 0; padding-top: 170px; position: relative; z-index: 2; }
- .js #about.reveal { transition-duration: 1.15s; transition-timing-function: cubic-bezier(.2, .7, .2, 1); }
+ #about { margin-top: 0; padding-top: 110px; position: relative; }
+ .js #about.reveal { opacity: 1; transform: none; }
 .hero::after { background: linear-gradient(135deg, transparent 25%, rgba(121, 184, 232, .06), transparent 68%); content: ""; inset: 20% -10% 0 28%; pointer-events: none; position: absolute; transform: skewY(-7deg); z-index: -1; }
  .eyebrow { color: var(--soft); }
  .eyebrow::first-letter { color: var(--paper); }
@@ -225,6 +226,7 @@ h1 em { animation: text-glow 4s ease-in-out infinite; display: inline-block; pos
 h1 em::after { background: var(--paper); bottom: -.08em; content: ""; height: 3px; left: 0; position: absolute; transform-origin: left; width: 100%; animation: draw-line 1.2s .7s cubic-bezier(.2, .7, .2, 1) both; }
 h1 em::before, .contacts h2 em::before { color: #d9e7d1; content: "systems"; left: 0; opacity: 0; pointer-events: none; position: absolute; top: 0; }
 h1 em::before { animation: glitch-slice 4.5s 1.5s steps(2, end) infinite; }
+#about h1 em::before { content: "my work."; }
  .hero-copy { max-width: 270px; }
  .profile-photo { border-radius: 50%; filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .25)); display: block; height: 118px; margin-bottom: 28px; object-fit: contain; object-position: center top; width: 118px; }
  .hero-copy p { color: var(--soft); font-size: .95rem; margin-bottom: 26px; }
@@ -546,7 +548,7 @@ body.modal-open { overflow: hidden; }
      .home-cards { max-width: 100%; order: 3; width: 100%; }
      .home-scroll-cue { bottom: 16px; left: auto; right: 0; }
      .hero { min-height: auto; padding: 75px 0 40px; }
-     #about { padding-top: 115px; }
+     #about { padding-top: 75px; }
      .hero-content { display: block; margin-top: 32px; }
      h1 { font-size: clamp(3.3rem, 15vw, 5.5rem); }
      .hero-copy { margin-top: 38px; max-width: 360px; }
