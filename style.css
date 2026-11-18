@@ -104,6 +104,11 @@ body::after {
      margin: 0;
      width: 100%;
  }
+
+ main,
+ footer {
+     padding-inline: 24px;
+ }
  
  .navbar {
      align-items: center;
@@ -114,7 +119,7 @@ body::after {
     border-radius: 8px;
      display: flex;
      justify-content: space-between;
-    margin: 14px 0 0;
+    margin: 14px 24px 0;
      min-height: 86px;
     padding-inline: 18px;
      position: sticky;
@@ -123,6 +128,7 @@ body::after {
     transform-origin: top right;
     transition: transform .45s cubic-bezier(.2, .8, .2, 1), opacity .25s ease, left .35s cubic-bezier(.2, .8, .2, 1), background-color .25s ease, border-color .25s ease;
     will-change: transform;
+    width: auto;
  }
 
 [data-theme="light"] .navbar { background: rgba(237, 243, 247, .58); border-color: rgba(20, 32, 42, .1); }
@@ -542,7 +548,8 @@ body.modal-open { overflow: hidden; }
  
  @media (max-width: 760px) {
       .navbar, main, footer { width: 100%; }
-    .navbar { margin-top: 10px; min-height: 72px; padding-inline: 12px; top: 10px; }
+       main, footer { padding-inline: 16px; }
+     .navbar { margin-top: 10px; min-height: 72px; padding-inline: 12px; top: 10px; }
      .availability { display: none; }
      .menu { gap: 1rem; }
      .menu { gap: .75rem; }
@@ -1463,6 +1470,8 @@ body.modal-open { overflow: hidden; }
 
 @media (min-width: 761px) and (max-width: 1000px) {
     .navbar, main, footer { width: 100%; }
+    main, footer { padding-inline: 20px; }
+    .navbar { margin-left: 20px; margin-right: 20px; width: auto; }
     .navbar { padding-inline: 14px; }
     .card-container { grid-template-columns: repeat(2, 1fr); }
 }
