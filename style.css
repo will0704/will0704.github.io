@@ -2425,3 +2425,125 @@ footer {
         letter-spacing: .04em;
     }
 }
+
+/* Final responsive spacing */
+main,
+footer {
+    padding-inline: 36px;
+}
+
+.home-section {
+    height: auto;
+    min-height: calc(100vh - 82px);
+    overflow: visible;
+    padding-bottom: 72px;
+}
+
+.home-name {
+    color: var(--paper);
+    font: 800 clamp(1.15rem, 1.7vw, 1.55rem) "Orbitron", "Share Tech Mono", monospace;
+    letter-spacing: .08em;
+    margin: -8px 0 18px;
+    text-shadow: 0 0 18px rgba(98, 245, 255, .22);
+    text-transform: uppercase;
+}
+
+.home-name span {
+    color: var(--cyber-cyan);
+}
+
+.home-copy {
+    padding-bottom: 44px;
+}
+
+@media (min-width: 761px) {
+    .navbar {
+        margin-left: 36px;
+        margin-right: 36px;
+    }
+}
+
+@media (min-width: 761px) and (max-width: 1000px) {
+    main,
+    footer {
+        padding-inline: 28px;
+    }
+
+    .navbar {
+        margin-left: 28px;
+        margin-right: 28px;
+    }
+}
+
+/* Stronger cyberpunk atmosphere */
+body {
+    background:
+        radial-gradient(circle at 8% 12%, rgba(255, 60, 172, .16), transparent 24rem),
+        radial-gradient(circle at 92% 38%, rgba(98, 245, 255, .14), transparent 30rem),
+        radial-gradient(circle at 72% 82%, rgba(141, 92, 255, .10), transparent 26rem),
+        linear-gradient(135deg, #080e16 0%, #05070d 58%, #0b1019 100%);
+}
+
+body::before {
+    background-image:
+        linear-gradient(rgba(98, 245, 255, .075) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(98, 245, 255, .075) 1px, transparent 1px),
+        repeating-linear-gradient(0deg, transparent 0 5px, rgba(255, 60, 172, .038) 6px);
+    background-size: 42px 42px, 42px 42px, 100% 7px;
+    mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, .85) 60%, transparent 96%);
+}
+
+body::after {
+    background:
+        linear-gradient(90deg, transparent 0 48%, rgba(98, 245, 255, .055) 50%, transparent 52%),
+        radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 20%), rgba(255, 60, 172, .11), transparent 14rem);
+}
+
+main::before {
+    border-left-color: rgba(98, 245, 255, .42);
+    border-right-color: rgba(255, 60, 172, .22);
+    box-shadow: inset 18px 0 36px rgba(98, 245, 255, .025), inset -18px 0 36px rgba(255, 60, 172, .025);
+}
+
+.home-section::after {
+    border-bottom-color: rgba(255, 60, 172, .24);
+    border-top-color: rgba(98, 245, 255, .24);
+}
+
+.card,
+.home-note,
+.profile-grid > div,
+.contact-panel {
+    backdrop-filter: blur(16px) saturate(125%);
+    -webkit-backdrop-filter: blur(16px) saturate(125%);
+}
+
+[data-theme="light"] body {
+    background:
+        radial-gradient(circle at 8% 12%, rgba(181, 29, 118, .10), transparent 24rem),
+        radial-gradient(circle at 92% 38%, rgba(8, 124, 145, .12), transparent 30rem),
+        linear-gradient(135deg, #edf7fb 0%, #dcecf3 58%, #eef7fb 100%);
+}
+
+[data-theme="light"] body::before {
+    background-image:
+        linear-gradient(rgba(8, 124, 145, .085) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(8, 124, 145, .085) 1px, transparent 1px),
+        repeating-linear-gradient(0deg, transparent 0 5px, rgba(181, 29, 118, .035) 6px);
+}
+
+@media (max-width: 760px) {
+    main,
+    footer {
+        padding-inline: 20px;
+    }
+
+    .home-section {
+        height: auto;
+        padding-bottom: 88px;
+    }
+
+    .home-copy {
+        padding-bottom: 42px;
+    }
+}
