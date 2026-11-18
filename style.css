@@ -2897,6 +2897,238 @@ main::before {
     }
 }
 
+/* Cyberpunk desktop-window modals */
+.project-modal {
+    background:
+        radial-gradient(circle at 50% 45%, rgba(98, 245, 255, .08), transparent 24rem),
+        rgba(3, 7, 12, .78);
+}
+
+.modal-panel {
+    background:
+        linear-gradient(rgba(98, 245, 255, .025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(98, 245, 255, .025) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(12, 21, 31, .98), rgba(5, 10, 17, .98));
+    background-size: 24px 24px, 24px 24px, auto;
+    border: 1px solid rgba(98, 245, 255, .48);
+    border-radius: 12px;
+    box-shadow:
+        0 32px 100px rgba(0, 0, 0, .62),
+        0 0 0 1px rgba(255, 60, 172, .08),
+        0 0 34px rgba(98, 245, 255, .08),
+        inset 0 1px 0 rgba(255, 255, 255, .12);
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+    gap: 0;
+    max-height: calc(100vh - 48px);
+    max-width: 1180px;
+    overflow: hidden;
+    padding: 0;
+}
+
+.modal-panel::before {
+    background: linear-gradient(90deg, var(--cyber-pink), transparent 24%, transparent 76%, var(--cyber-cyan));
+    height: 2px;
+    inset: 0 0 auto;
+    opacity: .75;
+}
+
+.window-bar {
+    align-items: center;
+    background:
+        linear-gradient(90deg, rgba(255, 60, 172, .10), transparent 28%, transparent 72%, rgba(98, 245, 255, .10)),
+        rgba(7, 13, 21, .96);
+    border-bottom: 1px solid rgba(98, 245, 255, .24);
+    display: flex;
+    height: 48px;
+    justify-content: space-between;
+    padding: 0 8px 0 14px;
+}
+
+.window-brand,
+.window-controls,
+.window-nav,
+.window-status,
+.window-status-bar {
+    align-items: center;
+    display: flex;
+}
+
+.window-brand { gap: 12px; }
+.window-brand-mark {
+    color: var(--cyber-cyan);
+    font: 800 .78rem "Orbitron", "Share Tech Mono", monospace;
+    letter-spacing: -.04em;
+    text-shadow: 0 0 10px rgba(98, 245, 255, .5);
+}
+
+.window-title {
+    border-left: 1px solid rgba(98, 245, 255, .18);
+    color: var(--muted-paper);
+    font: .62rem "Share Tech Mono", monospace;
+    letter-spacing: .12em;
+    padding-left: 12px;
+    text-transform: uppercase;
+}
+
+.window-controls { gap: 5px; }
+.window-control,
+.modal-close {
+    align-items: center;
+    border: 1px solid rgba(98, 245, 255, .18);
+    border-radius: 4px;
+    color: var(--muted-paper);
+    display: flex;
+    font: .78rem/1 "Share Tech Mono", monospace;
+    height: 30px;
+    justify-content: center;
+    margin: 0;
+    min-height: 30px;
+    min-width: 30px;
+    padding: 0;
+    position: static;
+    width: 30px;
+}
+
+.window-control--maximize { color: var(--cyber-cyan); }
+.modal-close {
+    background: rgba(255, 60, 172, .08);
+    border-color: rgba(255, 60, 172, .32);
+    color: #fff;
+    cursor: pointer;
+}
+.modal-close:hover,
+.modal-close:focus-visible {
+    background: var(--cyber-pink);
+    border-color: var(--cyber-pink);
+    box-shadow: 0 0 16px rgba(255, 60, 172, .36);
+    color: #fff;
+    transform: none;
+}
+
+.window-address-bar {
+    align-items: center;
+    background: rgba(8, 14, 22, .94);
+    border-bottom: 1px solid rgba(98, 245, 255, .14);
+    display: grid;
+    gap: 12px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    height: 42px;
+    padding: 0 10px;
+}
+
+.window-nav { gap: 4px; }
+.window-nav span {
+    align-items: center;
+    border: 1px solid rgba(98, 245, 255, .12);
+    border-radius: 4px;
+    color: var(--soft);
+    display: flex;
+    font: .68rem "Share Tech Mono", monospace;
+    height: 26px;
+    justify-content: center;
+    width: 26px;
+}
+
+.window-address {
+    background: rgba(98, 245, 255, .035);
+    border: 1px solid rgba(98, 245, 255, .14);
+    border-radius: 5px;
+    color: var(--soft);
+    font: .58rem "Share Tech Mono", monospace;
+    letter-spacing: .06em;
+    overflow: hidden;
+    padding: 6px 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.window-address span { color: var(--cyber-cyan); }
+.window-status { color: var(--cyber-cyan); font: .58rem "Share Tech Mono", monospace; gap: 7px; letter-spacing: .08em; }
+.window-status i { background: var(--cyber-yellow); border-radius: 50%; box-shadow: 0 0 8px var(--cyber-yellow); height: 6px; width: 6px; }
+
+.modal-workspace {
+    display: grid;
+    gap: 22px;
+    grid-template-columns: minmax(260px, .78fr) minmax(0, 1.22fr);
+    max-height: calc(100vh - 146px);
+    overflow: auto;
+    padding: 22px;
+    scrollbar-color: var(--cyber-cyan) transparent;
+}
+
+.modal-copy {
+    align-self: start;
+    order: 1;
+    padding: 8px 0 8px;
+}
+.modal-visual {
+    border-radius: 7px;
+    flex-basis: auto;
+    height: min(58vh, 520px);
+    order: 2;
+}
+.certificate-modal .modal-visual {
+    flex-basis: auto;
+    height: min(66vh, 620px);
+}
+.certificate-workspace {
+    grid-template-columns: minmax(220px, .58fr) minmax(0, 1.42fr);
+}
+
+.modal-panel::after,
+.project-modal:not(.certificate-modal) .modal-panel::after,
+.certificate-modal .modal-panel::after {
+    content: none;
+}
+
+.window-status-bar {
+    background: rgba(7, 13, 21, .98);
+    border-top: 1px solid rgba(98, 245, 255, .14);
+    color: var(--soft);
+    font: .54rem "Share Tech Mono", monospace;
+    height: 34px;
+    justify-content: space-between;
+    letter-spacing: .08em;
+    padding: 0 12px;
+    text-transform: uppercase;
+}
+
+[data-theme="light"] .modal-panel {
+    background:
+        linear-gradient(rgba(40, 111, 156, .05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(40, 111, 156, .05) 1px, transparent 1px),
+        linear-gradient(135deg, #eef7fb, #dceaf0);
+    border-color: rgba(40, 111, 156, .46);
+}
+
+[data-theme="light"] .window-bar,
+[data-theme="light"] .window-address-bar,
+[data-theme="light"] .window-status-bar {
+    background: rgba(228, 241, 247, .96);
+}
+
+[data-theme="light"] .window-address { background: rgba(255, 255, 255, .58); }
+[data-theme="light"] .modal-close { background: rgba(181, 29, 118, .08); border-color: rgba(181, 29, 118, .32); color: var(--cyber-pink); }
+[data-theme="light"] .modal-close:hover,
+[data-theme="light"] .modal-close:focus-visible { background: var(--cyber-pink); color: #fff; }
+
+@media (max-width: 760px) {
+    .modal-panel { border-radius: 8px; clip-path: none; }
+    .window-title { max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .window-address-bar { grid-template-columns: auto minmax(0, 1fr); }
+    .window-status { display: none; }
+    .modal-workspace,
+    .certificate-workspace {
+        display: flex;
+        flex-direction: column;
+        max-height: calc(100vh - 160px);
+        padding: 14px;
+    }
+    .modal-copy { order: 1; padding: 0; }
+    .modal-visual,
+    .certificate-modal .modal-visual { height: min(42vh, 360px); order: 2; }
+    .window-status-bar span:last-child { display: none; }
+}
+
 /* Performance-focused cyberpunk rendering */
 .projects,
 .cv-details,
