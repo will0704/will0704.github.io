@@ -101,8 +101,8 @@ body::after {
  .navbar,
  main,
  footer {
-     width: min(calc(100% - 64px), var(--max-width));
-     margin: 0 auto;
+     margin: 0;
+     width: 100%;
  }
  
  .navbar {
@@ -114,7 +114,7 @@ body::after {
     border-radius: 8px;
      display: flex;
      justify-content: space-between;
-    margin-top: 14px;
+    margin: 14px 0 0;
      min-height: 86px;
     padding-inline: 18px;
      position: sticky;
@@ -541,7 +541,7 @@ body.modal-open { overflow: hidden; }
 }
  
  @media (max-width: 760px) {
-     .navbar, main, footer { width: min(calc(100% - 40px), var(--max-width)); }
+      .navbar, main, footer { width: 100%; }
     .navbar { margin-top: 10px; min-height: 72px; padding-inline: 12px; top: 10px; }
      .availability { display: none; }
      .menu { gap: 1rem; }
@@ -1462,7 +1462,7 @@ body.modal-open { overflow: hidden; }
  }
 
 @media (min-width: 761px) and (max-width: 1000px) {
-    .navbar, main, footer { width: min(calc(100% - 40px), var(--max-width)); }
+    .navbar, main, footer { width: 100%; }
     .navbar { padding-inline: 14px; }
     .card-container { grid-template-columns: repeat(2, 1fr); }
 }
