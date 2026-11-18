@@ -85,7 +85,13 @@
 					<div class="skill-group"><span>Tools & concepts</span><div class="skill-items">
 						<span class="skill-item"><i class="devicon-git-plain" aria-hidden="true"></i>Git</span><span class="skill-item"><i class="devicon-github-original" aria-hidden="true"></i>GitHub</span><span class="skill-item"><i class="devicon-postman-plain" aria-hidden="true"></i>Postman</span><span class="skill-item"><i class="devicon-figma-plain" aria-hidden="true"></i>Figma</span><span class="skill-item"><i class="devicon-vscode-plain" aria-hidden="true"></i>VS Code</span><span class="skill-item"><i class="devicon-googlecloud-plain" aria-hidden="true"></i>Google Cloud</span><span class="skill-item"><i class="devicon-unity-plain" aria-hidden="true"></i>Unity</span><span class="skill-item skill-item--text">Software Development</span><span class="skill-item skill-item--text">Web Development</span><span class="skill-item skill-item--text">UI/UX</span><span class="skill-item skill-item--text">Data Analysis</span>
 					</div></div>
-				</div></div>
+				</div>
+				<div class="skills-spotlight" aria-live="polite">
+					<div class="spotlight-icon" aria-hidden="true"><i></i></div>
+					<div class="spotlight-copy"><p class="eyebrow">Selected technology</p><h3>TypeScript</h3><p class="spotlight-description">Typed application code for interfaces that are easier to maintain as a project grows.</p><div class="spotlight-projects"><span>Used in</span><div class="spotlight-project-list"></div></div></div>
+					<div class="tech-stage" aria-label="Interactive technology constellation"><div class="tech-wall"></div><p class="tech-stage-hint">Hover a technology</p></div>
+				</div>
+				</div>
 			</section>
 
 			<section id="contacts" class="contacts reveal">
@@ -104,10 +110,80 @@
 			themeToggle.addEventListener('click', () => { const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('portfolio-theme', nextTheme); applyTheme(nextTheme); });
 			document.documentElement.classList.add('js');
 			document.querySelectorAll('.skill-item i[class^="devicon-"]').forEach((icon) => icon.classList.add('colored'));
+			const skillDescriptions = {
+				HTML: 'Semantic building blocks for accessible, responsive interfaces.',
+				Java: 'Object-oriented application development and strong typing for reliable systems.',
+				CSS: 'Layout, animation, and visual systems that make every screen feel intentional.',
+				Kotlin: 'Modern, concise development for Android and multiplatform experiences.',
+				TypeScript: 'Typed application code for interfaces that are easier to maintain as a project grows.',
+				JavaScript: 'The interaction layer behind dynamic web experiences and application logic.',
+				Python: 'A practical foundation for APIs, automation, data work, and intelligent features.',
+				PHP: 'Server-side development for dependable web applications and administration tools.',
+				Flutter: 'Cross-platform product interfaces from a single expressive codebase.',
+				React: 'Composable interfaces for responsive dashboards and product workflows.',
+				Tailwind: 'Utility-first styling for fast, consistent interface systems.',
+				Django: 'A structured Python web framework for secure, maintainable backends.',
+				FastAPI: 'High-performance Python APIs with clear contracts and validation.',
+				Vite: 'A fast development and build tool for modern frontend projects.',
+				Laravel: 'A focused PHP framework for expressive web application backends.',
+				'Chart.js': 'Clear, responsive visualizations for turning data into decisions.',
+				'Compose Multiplatform': 'Declarative UI development across Android and desktop platforms.',
+				MySQL: 'Relational data storage for structured application workflows.',
+				MongoDB: 'Flexible document storage for fast-moving application data.',
+				Git: 'Version control for making experiments safe and collaboration traceable.',
+				GitHub: 'The home for source code, collaboration, and project delivery.',
+				Postman: 'A practical workspace for designing and testing APIs.',
+				Figma: 'Collaborative interface design and product exploration.',
+				'VS Code': 'A focused development environment for building and refining software.',
+				'Google Cloud': 'Cloud infrastructure and services for shipping applications.',
+				Unity: 'Interactive 3D development for games, worlds, and immersive experiences.'
+			};
+			const spotlight = document.querySelector('.skills-spotlight');
+			const spotlightIcon = spotlight.querySelector('.spotlight-icon i');
+			const spotlightTitle = spotlight.querySelector('h3');
+			const spotlightDescription = spotlight.querySelector('.spotlight-description');
+			const spotlightProjects = spotlight.querySelector('.spotlight-project-list');
+			const skillItems = [...document.querySelectorAll('.skill-item')];
+			const selectSkill = (skill) => {
+				const name = skill.textContent.trim();
+				skillItems.forEach((item) => { const selected = item === skill; item.classList.toggle('is-selected', selected); item.setAttribute('aria-pressed', selected); });
+				spotlightTitle.textContent = name;
+				spotlightDescription.textContent = skillDescriptions[name] || 'A useful part of the toolkit behind my web, mobile, and data projects.';
+				const icon = skill.querySelector('i');
+				spotlightIcon.className = icon ? icon.className : '';
+				spotlightIcon.textContent = icon ? '' : '?';
+				spotlightProjects.innerHTML = '';
+				const matchingProjects = [...document.querySelectorAll('.card')].filter((card) => [...card.querySelectorAll('.card-tags span')].some((tag) => tag.textContent.trim().toLowerCase() === name.toLowerCase()));
+				matchingProjects.forEach((card) => { const link = document.createElement('a'); link.href = '#projects'; link.textContent = card.querySelector('h2').textContent.trim(); link.addEventListener('click', () => card.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' })); spotlightProjects.append(link); });
+				if (!matchingProjects.length) spotlightProjects.innerHTML = '<span class="spotlight-empty">Part of the broader technical foundation.</span>';
+			};
+			skillItems.forEach((skill) => { skill.setAttribute('role', 'button'); skill.setAttribute('tabindex', '0'); skill.setAttribute('aria-pressed', 'false'); skill.addEventListener('click', () => selectSkill(skill)); skill.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectSkill(skill); } }); });
+			const techWall = document.querySelector('.tech-wall');
+			skillItems.concat(Array.from({ length: 12 })).forEach((skill, index) => {
+				const cube = document.createElement('button');
+				cube.className = 'tech-cube';
+				if (skill) {
+					const icon = skill.querySelector('i');
+					cube.innerHTML = `<span class="cube-face cube-face--front">${icon ? `<i class="${icon.className}" aria-hidden="true"></i>` : '<i aria-hidden="true">◈</i>'}<span class="cube-label">${skill.textContent.trim()}</span></span><span class="cube-face cube-face--back"></span><span class="cube-face cube-face--top"></span><span class="cube-face cube-face--bottom"></span><span class="cube-face cube-face--left"></span><span class="cube-face cube-face--right"></span>`;
+					const setHologramColor = () => cube.style.setProperty('--holo-color', getComputedStyle(icon || cube.querySelector('.cube-face--front i')).color);
+					cube.addEventListener('mouseenter', () => { setHologramColor(); selectSkill(skill); });
+					cube.addEventListener('focus', () => { setHologramColor(); selectSkill(skill); });
+					cube.addEventListener('mouseleave', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'TypeScript') || skillItems[0]));
+					cube.addEventListener('blur', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'TypeScript') || skillItems[0]));
+					cube.setAttribute('aria-label', `Preview ${skill.textContent.trim()}`);
+				} else {
+					cube.classList.add('is-unknown');
+					cube.innerHTML = '<span class="cube-face cube-face--front"><strong aria-hidden="true">?</strong><span class="cube-label">More soon</span></span><span class="cube-face cube-face--back"></span><span class="cube-face cube-face--top"></span><span class="cube-face cube-face--bottom"></span><span class="cube-face cube-face--left"></span><span class="cube-face cube-face--right"></span>';
+					cube.setAttribute('aria-label', 'More technologies coming soon');
+				}
+				cube.style.setProperty('--cube-index', index);
+				techWall.append(cube);
+			});
 			const revealItems = document.querySelectorAll('.reveal, .experience-item, .profile-grid > div, .skills-grid > div, footer');
 			revealItems.forEach((item) => item.classList.add('reveal'));
 			const progressBar = document.querySelector('.scroll-progress span');
 			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			selectSkill(skillItems.find((skill) => skill.textContent.trim() === 'TypeScript') || skillItems[0]);
 
 			if (reduceMotion) {
 				revealItems.forEach((item) => item.classList.add('is-visible'));
