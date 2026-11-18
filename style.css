@@ -2604,7 +2604,7 @@ main::before {
 }
 
 .project-screenshot-wall {
-    height: 1500px;
+    height: 900px;
     left: -90px;
     overflow: visible;
     position: absolute;
@@ -2711,7 +2711,7 @@ main::before {
 
 @media (max-width: 760px) {
     .project-screenshot-wall {
-        height: 1500px;
+        height: 900px;
         left: -220px;
         right: -220px;
         transform: translateY(-50%) rotate(-5deg) scale(.72);
@@ -2895,6 +2895,34 @@ main::before {
     .tech-stage::before {
         inset: 12% 1%;
     }
+}
+
+/* Performance-focused cyberpunk rendering */
+.projects,
+.cv-details,
+.contacts,
+.skills-spotlight {
+    contain: layout style;
+}
+
+.project-screenshot-stage.is-paused .project-screenshot-track,
+.project-screenshot-stage.is-paused .project-screenshot-wall {
+    animation-play-state: paused;
+}
+
+.project-screenshot-track,
+.project-screenshot-wall,
+.tech-wall,
+.card {
+    will-change: transform;
+}
+
+.navbar,
+.modal-panel,
+.skills-spotlight,
+.project-screenshot-stage {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 /* Cyberpunk scroll motion */

@@ -331,6 +331,8 @@
 					const rect = projectsSection.getBoundingClientRect();
 					const sectionProgress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
 					projectsSection.style.setProperty('--section-scroll', sectionProgress.toFixed(4));
+					const projectStage = projectsSection.querySelector('.project-screenshot-stage');
+					if (projectStage) projectStage.classList.toggle('is-paused', rect.bottom < -300 || rect.top > window.innerHeight + 300);
 				}
 
 				const skillsSection = document.querySelector('.skills-spotlight');
@@ -421,23 +423,23 @@
 
 			const projectYears = ['2026', '2025', '2025', '2025', 'Additional', 'Additional', 'Additional'];
 			const projectCards = [...document.querySelectorAll('.card')];
+			const projectScreenshotStage = document.querySelector('.project-screenshot-stage');
+			if (projectScreenshotStage) {
+				const screenshotRows = [...projectScreenshotStage.querySelectorAll('.project-screenshot-row')];
+				screenshotRows.slice(6).forEach((row) => row.remove());
+				projectScreenshotStage.querySelectorAll('img').forEach((image) => {
+					image.loading = 'lazy';
+					image.decoding = 'async';
+				});
+				projectScreenshotStage.classList.add('is-paused');
+				const screenshotObserver = new IntersectionObserver((entries) => {
+					entries.forEach((entry) => projectScreenshotStage.classList.toggle('is-paused', !entry.isIntersecting));
+				}, { rootMargin: '300px 0px', threshold: 0 });
+				screenshotObserver.observe(projectScreenshotStage);
+			}
 			if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
 				projectCards.forEach((card) => {
-					let cardBounds;
-					card.addEventListener('pointerenter', () => { playCyberKeyClick('activate'); cardBounds = card.getBoundingClientRect(); });
-					card.addEventListener('pointermove', (event) => {
-						const bounds = cardBounds || card.getBoundingClientRect();
-						const x = (event.clientX - bounds.left) / bounds.width;
-						const y = (event.clientY - bounds.top) / bounds.height;
-						card.style.setProperty('--pointer-x', `${x * 100}%`);
-						card.style.setProperty('--pointer-y', `${y * 100}%`);
-						card.style.setProperty('--tilt-x', `${(0.5 - y) * 2}deg`);
-						card.style.setProperty('--tilt-y', `${(x - 0.5) * 2}deg`);
-					});
-					card.addEventListener('pointerleave', () => {
-						card.style.removeProperty('--tilt-x');
-						card.style.removeProperty('--tilt-y');
-					});
+					card.addEventListener('pointerenter', () => { playCyberKeyClick('activate'); }, { passive: true });
 				});
 			}
 			const projectModal = document.createElement('div');
