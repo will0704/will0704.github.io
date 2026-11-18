@@ -2709,3 +2709,168 @@ main::before {
         height: 130px;
     }
 }
+
+/* Cyberpunk technology system board */
+.skills-spotlight {
+    background:
+        linear-gradient(90deg, rgba(255, 60, 172, .08), transparent 24%, transparent 76%, rgba(98, 245, 255, .08)),
+        linear-gradient(rgba(98, 245, 255, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(98, 245, 255, .055) 1px, transparent 1px),
+        radial-gradient(circle at 76% 46%, rgba(98, 245, 255, .12), transparent 28rem),
+        linear-gradient(135deg, rgba(8, 14, 24, .98), rgba(5, 9, 15, .96));
+    background-size: auto, 32px 32px, 32px 32px, auto, auto;
+    border-color: rgba(98, 245, 255, .34);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 24px 70px rgba(0, 0, 0, .38), 0 0 38px rgba(98, 245, 255, .05);
+}
+
+.skills-spotlight::before {
+    background:
+        linear-gradient(90deg, transparent 0 49.8%, rgba(98, 245, 255, .12) 50%, transparent 50.2%),
+        linear-gradient(rgba(98, 245, 255, .04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(98, 245, 255, .04) 1px, transparent 1px);
+    background-size: auto, 18px 18px, 18px 18px;
+    content: "";
+    inset: 0;
+    mask-image: linear-gradient(to right, transparent 32%, black 48%, black 100%);
+    pointer-events: none;
+    position: absolute;
+}
+
+.skills-spotlight::after {
+    background: linear-gradient(90deg, transparent 0 40%, rgba(255, 60, 172, .12) 49.8%, rgba(98, 245, 255, .16) 50.2%, transparent 60%);
+    content: "";
+    height: 1px;
+    left: 38%;
+    opacity: .8;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: rotate(-6deg);
+}
+
+.spotlight-copy::before {
+    color: var(--cyber-cyan);
+    content: "SYS://TECHNOLOGY_DECK";
+    display: block;
+    font: .62rem "Share Tech Mono", monospace;
+    letter-spacing: .12em;
+    margin-bottom: 24px;
+}
+
+.spotlight-copy h3 {
+    color: var(--paper);
+    text-shadow: 0 0 18px rgba(98, 245, 255, .18);
+}
+
+.tech-stage {
+    background:
+        radial-gradient(circle at 50% 50%, rgba(98, 245, 255, .08), transparent 14rem),
+        linear-gradient(135deg, rgba(98, 245, 255, .025), transparent 40%, rgba(255, 60, 172, .025));
+    border-left: 1px solid rgba(98, 245, 255, .12);
+}
+
+.tech-stage::before {
+    border: 1px solid rgba(98, 245, 255, .16);
+    content: "";
+    inset: 9% 4%;
+    pointer-events: none;
+    position: absolute;
+    transform: rotateX(52deg) rotateZ(-32deg) skewX(8deg);
+}
+
+.tech-stage-hint {
+    background: rgba(5, 10, 18, .88);
+    border-color: rgba(98, 245, 255, .42);
+    box-shadow: 0 0 18px rgba(98, 245, 255, .08);
+}
+
+.tech-wall {
+    gap: 9px;
+    grid-template-columns: repeat(6, minmax(42px, 1fr));
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotateX(54deg) rotateZ(-34deg) skewX(7deg) scale(.68);
+    width: 112%;
+}
+
+.tech-cube {
+    border: 1px solid transparent;
+}
+
+.cube-face--front {
+    background:
+        repeating-linear-gradient(0deg, transparent 0 6px, rgba(98, 245, 255, .025) 7px),
+        linear-gradient(145deg, rgba(16, 28, 39, .98), rgba(6, 11, 18, .98));
+    border-color: rgba(98, 245, 255, .38);
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), inset 0 0 18px rgba(98, 245, 255, .04), 0 0 12px rgba(98, 245, 255, .07);
+}
+
+.cube-face--front::after {
+    border: 1px solid rgba(98, 245, 255, .14);
+    content: "";
+    inset: 5px;
+    position: absolute;
+}
+
+.cube-face--top,
+.cube-face--bottom {
+    background: rgba(98, 245, 255, .28);
+}
+
+.cube-face--left,
+.cube-face--right {
+    background: linear-gradient(180deg, rgba(255, 60, 172, .22), rgba(19, 54, 73, .72));
+}
+
+.tech-cube.is-selected,
+.tech-cube:hover,
+.tech-cube:focus-visible {
+    border-color: rgba(98, 245, 255, .52);
+    filter: saturate(1.35);
+}
+
+.tech-cube:hover .cube-face--front,
+.tech-cube:focus-visible .cube-face--front {
+    background:
+        repeating-linear-gradient(0deg, transparent 0 6px, rgba(98, 245, 255, .08) 7px),
+        linear-gradient(145deg, color-mix(in srgb, var(--holo-color, #62f5ff) 18%, #10202b), #070d14);
+    box-shadow: 0 0 14px var(--holo-color, #62f5ff), 0 0 34px rgba(98, 245, 255, .16);
+}
+
+[data-theme="light"] .skills-spotlight {
+    background:
+        linear-gradient(90deg, rgba(181, 29, 118, .06), transparent 24%, transparent 76%, rgba(8, 124, 145, .08)),
+        linear-gradient(rgba(8, 124, 145, .07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(8, 124, 145, .07) 1px, transparent 1px),
+        radial-gradient(circle at 76% 46%, rgba(8, 124, 145, .12), transparent 28rem),
+        linear-gradient(135deg, rgba(234, 244, 249, .98), rgba(207, 226, 236, .98));
+}
+
+@media (max-width: 760px) {
+    .skills-spotlight {
+        grid-template-columns: 1fr;
+    }
+
+    .spotlight-copy {
+        padding-bottom: 20px;
+    }
+
+    .tech-stage {
+        min-height: 330px;
+    }
+
+    .tech-wall {
+        gap: 8px;
+        grid-template-columns: repeat(5, minmax(30px, 1fr));
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotateX(54deg) rotateZ(-34deg) skewX(7deg) scale(.58);
+        width: 130%;
+    }
+
+    .tech-stage::before {
+        inset: 12% 1%;
+    }
+}
