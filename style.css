@@ -2532,6 +2532,145 @@ main::before {
         repeating-linear-gradient(0deg, transparent 0 5px, rgba(181, 29, 118, .035) 6px);
 }
 
+/* Full-section moving project screenshot background */
+.projects {
+    isolation: isolate;
+    overflow: hidden;
+    position: relative;
+}
+
+.projects > *:not(.project-screenshot-stage) {
+    position: relative;
+    z-index: 3;
+}
+
+#projects .project-screenshot-stage {
+    bottom: 0;
+    height: auto;
+    inset: 0;
+    left: 0;
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+    z-index: 0;
+}
+
+.project-screenshot-stage::before {
+    background:
+        linear-gradient(rgba(98, 245, 255, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(98, 245, 255, .055) 1px, transparent 1px);
+    background-size: 32px 32px;
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 4;
+}
+
+.project-screenshot-stage::after {
+    background:
+        linear-gradient(180deg, rgba(5, 8, 15, .62) 0%, rgba(5, 8, 15, .72) 42%, rgba(5, 8, 15, .82) 100%),
+        linear-gradient(90deg, rgba(255, 60, 172, .06), transparent 28%, transparent 72%, rgba(98, 245, 255, .06));
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 3;
+}
+
+.project-screenshot-wall {
+    height: 1500px;
+    left: -90px;
+    overflow: visible;
+    position: absolute;
+    right: -90px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-5deg) scale(1.04);
+    transform-origin: center;
+    width: calc(100% + 180px);
+}
+
+.project-screenshot-row {
+    height: 150px;
+    margin-bottom: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.project-screenshot-track {
+    align-items: center;
+    display: flex;
+    height: 150px;
+    left: 0;
+    position: absolute;
+    width: max-content;
+    will-change: transform;
+}
+
+.project-screenshot-group {
+    display: flex;
+    flex-shrink: 0;
+    gap: 12px;
+    padding-right: 12px;
+}
+
+.project-screenshot-track--left {
+    animation: project-wall-scroll-left 84s linear infinite;
+}
+
+.project-screenshot-track--right {
+    animation: project-wall-scroll-right 95s linear infinite;
+}
+
+.project-screenshot-row:nth-child(2) .project-screenshot-track { animation-duration: 95s; }
+.project-screenshot-row:nth-child(3) .project-screenshot-track { animation-duration: 106s; }
+.project-screenshot-row:nth-child(4) .project-screenshot-track { animation-duration: 117s; }
+.project-screenshot-row:nth-child(5) .project-screenshot-track { animation-duration: 128s; }
+.project-screenshot-row:nth-child(6) .project-screenshot-track { animation-duration: 139s; }
+.project-screenshot-row:nth-child(7) .project-screenshot-track { animation-duration: 150s; }
+.project-screenshot-row:nth-child(8) .project-screenshot-track { animation-duration: 161s; }
+.project-screenshot-row:nth-child(9) .project-screenshot-track { animation-duration: 172s; }
+.project-screenshot-row:nth-child(10) .project-screenshot-track { animation-duration: 183s; }
+
+.project-screenshot-track figure {
+    background: #080d15;
+    border: 1px solid rgba(98, 245, 255, .16);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, .38);
+    flex: 0 0 330px;
+    height: 130px;
+    overflow: hidden;
+    position: relative;
+}
+
+.project-screenshot-track img {
+    filter: saturate(.48) contrast(.92) brightness(.55);
+    height: 100%;
+    object-fit: cover;
+    opacity: .38;
+    width: 100%;
+}
+
+.project-screenshot-stage:hover .project-screenshot-track {
+    animation-play-state: paused;
+}
+
+@keyframes project-wall-scroll-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@keyframes project-wall-scroll-right {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-screenshot-track { animation: none; }
+}
+
 @media (max-width: 760px) {
     main,
     footer {
@@ -2545,5 +2684,28 @@ main::before {
 
     .home-copy {
         padding-bottom: 42px;
+    }
+}
+
+@media (max-width: 760px) {
+    .project-screenshot-wall {
+        height: 1500px;
+        left: -220px;
+        right: -220px;
+        transform: translateY(-50%) rotate(-5deg) scale(.72);
+        width: calc(100% + 440px);
+    }
+
+    .project-screenshot-row {
+        height: 150px;
+    }
+
+    .project-screenshot-track {
+        height: 150px;
+    }
+
+    .project-screenshot-track figure {
+        flex-basis: 330px;
+        height: 130px;
     }
 }
