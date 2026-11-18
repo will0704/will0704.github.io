@@ -1162,6 +1162,28 @@ body.modal-open { overflow: hidden; }
          linear-gradient(90deg, rgba(40, 111, 156, .055) 1px, transparent 1px);
      background-size: 42px 42px;
  }
+
+ [data-theme="light"] .project-screenshot-stage::before {
+     background:
+         linear-gradient(rgba(40, 111, 156, .09) 1px, transparent 1px),
+         linear-gradient(90deg, rgba(40, 111, 156, .09) 1px, transparent 1px);
+ }
+
+ [data-theme="light"] .project-screenshot-stage::after {
+     background:
+         linear-gradient(180deg, rgba(236, 245, 249, .74) 0%, rgba(220, 235, 242, .72) 42%, rgba(236, 245, 249, .82) 100%),
+         linear-gradient(90deg, rgba(181, 29, 118, .04), transparent 28%, transparent 72%, rgba(8, 124, 145, .04));
+ }
+
+ [data-theme="light"] .project-screenshot-track figure {
+     border-color: rgba(40, 111, 156, .28);
+     box-shadow: 0 12px 34px rgba(39, 73, 98, .16);
+ }
+
+ [data-theme="light"] .project-screenshot-track img {
+     filter: saturate(.55) contrast(.82) brightness(.98);
+     opacity: .32;
+ }
  [data-theme="light"] .card,
  [data-theme="light"] .card:nth-child(1) {
      background:
@@ -2872,5 +2894,131 @@ main::before {
 
     .tech-stage::before {
         inset: 12% 1%;
+    }
+}
+
+/* Cyberpunk scroll motion */
+.scroll-progress {
+    box-shadow: 0 0 14px rgba(98, 245, 255, .28);
+}
+
+.scroll-progress span::after {
+    background: var(--cyber-pink);
+    box-shadow: 0 0 10px var(--cyber-pink);
+    content: "";
+    height: 8px;
+    position: absolute;
+    right: 0;
+    top: -3px;
+    width: 8px;
+}
+
+body::after {
+    background:
+        radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 20%), rgba(98, 245, 255, .11), transparent 11rem),
+        radial-gradient(circle at 18% 72%, rgba(255, 60, 172, .07), transparent 18rem);
+}
+
+.navbar::after,
+.projects::after,
+.skills-spotlight::after,
+.contacts::after {
+    animation: cyber-signal-pulse 3.8s steps(4, end) infinite;
+}
+
+.projects {
+    --wall-scroll-x: calc((var(--section-scroll, 0) - .5) * -180px);
+}
+
+.project-screenshot-wall {
+    transform: translateY(-50%) translateX(var(--wall-scroll-x)) rotate(-5deg) scale(1.04);
+    transition: transform .08s linear;
+}
+
+.skills-spotlight {
+    overflow: hidden;
+}
+
+.skills-spotlight .tech-wall {
+    transform: translate(-50%, -50%) rotateX(54deg) rotateZ(-34deg) skewX(7deg) scale(.68);
+}
+
+.skills-spotlight:hover .tech-wall {
+    transform: translate(-50%, -50%) rotateX(52deg) rotateZ(-32deg) skewX(7deg) scale(.70);
+}
+
+.card,
+.profile-grid > div,
+.experience-item,
+.skills-spotlight,
+.contacts {
+    position: relative;
+}
+
+.card::before,
+.profile-grid > div::before,
+.experience-item::before,
+.skills-spotlight::before,
+.contacts::before {
+    animation: cyber-scan-sweep 8s linear infinite;
+}
+
+.reveal.is-visible {
+    animation: cyber-reveal .85s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.reveal.is-visible .eyebrow,
+.reveal.is-visible .projects-title,
+.reveal.is-visible .contacts h2 {
+    text-shadow: 0 0 24px rgba(98, 245, 255, .16);
+}
+
+@keyframes cyber-reveal {
+    0% { clip-path: inset(0 0 100% 0); filter: brightness(1.8); }
+    42% { clip-path: inset(0 0 58% 0); }
+    100% { clip-path: inset(0); filter: brightness(1); }
+}
+
+@keyframes cyber-scan-sweep {
+    0% { transform: translateX(-130%); opacity: 0; }
+    12% { opacity: .55; }
+    38% { transform: translateX(130%); opacity: 0; }
+    100% { transform: translateX(130%); opacity: 0; }
+}
+
+@keyframes cyber-signal-pulse {
+    0%, 84%, 100% { opacity: .55; }
+    86% { opacity: 1; }
+    88% { opacity: .35; }
+    91% { opacity: .9; }
+}
+
+@media (max-width: 760px) {
+    .project-screenshot-wall {
+        transform: translateY(-50%) translateX(calc(var(--wall-scroll-x, 0px) * .35)) rotate(-5deg) scale(.72);
+    }
+
+    .skills-spotlight .tech-wall {
+        transform: translate(-50%, -50%) rotateX(54deg) rotateZ(-34deg) skewX(7deg) scale(.58);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal.is-visible,
+    .navbar::after,
+    .projects::after,
+    .skills-spotlight::after,
+    .contacts::after,
+    .card::before,
+    .profile-grid > div::before,
+    .experience-item::before,
+    .skills-spotlight::before,
+    .contacts::before {
+        animation: none !important;
+    }
+
+    .project-screenshot-wall,
+    .skills-spotlight .tech-wall {
+        transition: none;
     }
 }

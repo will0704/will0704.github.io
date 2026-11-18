@@ -66,7 +66,7 @@
 			</div>
 
 			<section id="projects" class="projects reveal">
-				<div class="section-heading"><div><p class="eyebrow">03 / Selected work</p><h2 class="projects-title">Field-tested<br><em>systems.</em></h2></div><div class="projects-intel"><span><i></i> Portfolio archive / online</span><p>Seven software projects across<br>finance, education, and productivity.</p></div></div><div class="projects-commandbar"><span>PROJECT_INDEX // 07 UNITS</span><span>STATUS: <b>OPERATIONAL</b></span><span>2023—2026</span></div>
+				<div class="section-heading"><div><p class="eyebrow">03 / Selected work</p><h2 class="projects-title">Featured<br><em>projects.</em></h2></div><div class="projects-intel"><span><i></i> Portfolio archive / online</span><p>Seven software projects across<br>finance, education, and productivity.</p></div></div><div class="projects-commandbar"><span>PROJECT_INDEX // 07 UNITS</span><span>STATUS: <b>OPERATIONAL</b></span><span>2023—2026</span></div>
 				<div class="project-screenshot-stage" aria-hidden="true">
 					<div class="project-screenshot-wall">
 						<div class="project-screenshot-row"><div class="project-screenshot-track project-screenshot-track--left">
@@ -176,7 +176,7 @@
 			const navbar = document.querySelector('.navbar');
 			const applyTheme = (theme) => { document.documentElement.dataset.theme = theme; themeToggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`); themeToggle.title = themeToggle.getAttribute('aria-label'); themeToggle.querySelector('span').textContent = theme === 'dark' ? '☼' : '☾'; };
 			applyTheme(savedTheme === 'light' ? 'light' : 'dark');
-			themeToggle.addEventListener('click', () => { const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('portfolio-theme', nextTheme); const updateTheme = () => applyTheme(nextTheme); if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) { updateTheme(); return; } const buttonRect = themeToggle.getBoundingClientRect(); const originX = buttonRect.left + buttonRect.width / 2; const originY = buttonRect.top + buttonRect.height / 2; const radius = Math.hypot(Math.max(originX, window.innerWidth - originX), Math.max(originY, window.innerHeight - originY)); document.documentElement.style.setProperty('--theme-origin-x', `${originX}px`); document.documentElement.style.setProperty('--theme-origin-y', `${originY}px`); document.documentElement.style.setProperty('--theme-reveal-radius', `${radius}px`); document.startViewTransition(updateTheme); });
+			themeToggle.addEventListener('click', () => { playCyberKeyClick('confirm'); const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('portfolio-theme', nextTheme); const updateTheme = () => applyTheme(nextTheme); if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) { updateTheme(); return; } const buttonRect = themeToggle.getBoundingClientRect(); const originX = buttonRect.left + buttonRect.width / 2; const originY = buttonRect.top + buttonRect.height / 2; const radius = Math.hypot(Math.max(originX, window.innerWidth - originX), Math.max(originY, window.innerHeight - originY)); document.documentElement.style.setProperty('--theme-origin-x', `${originX}px`); document.documentElement.style.setProperty('--theme-origin-y', `${originY}px`); document.documentElement.style.setProperty('--theme-reveal-radius', `${radius}px`); document.startViewTransition(updateTheme); });
 			document.documentElement.classList.add('js');
 			document.querySelectorAll('.skill-item i[class^="devicon-"]').forEach((icon) => icon.classList.add('colored'));
 			const skillDescriptions = {
@@ -214,6 +214,54 @@
 			const spotlightProjects = spotlight.querySelector('.spotlight-project-list');
 			const skillItems = [...document.querySelectorAll('.skill-item')];
 			const projectImages = { Avelon: 'images/avelon.png', AnchorWatch: 'images/anchorwatch.png', BrightSteps: 'images/brightsteps.png', 'PHINMA Education Wide Evaluation System': 'images/phinmawide.png', PuTask: 'images/putask.jpg', ReviewKita: 'images/reviewkita.png', Lurk: 'images/Lurk.png' };
+			let cyberAudioContext = null;
+			let lastCyberClick = 0;
+			const playCyberKeyClick = (kind = 'activate') => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+				const now = performance.now();
+				if (now - lastCyberClick < 70) return;
+				lastCyberClick = now;
+				const AudioContext = window.AudioContext || window.webkitAudioContext;
+				if (!AudioContext) return;
+				cyberAudioContext ||= new AudioContext();
+				if (cyberAudioContext.state === 'suspended') cyberAudioContext.resume();
+				const start = cyberAudioContext.currentTime;
+				const oscillator = cyberAudioContext.createOscillator();
+				const gain = cyberAudioContext.createGain();
+				const filter = cyberAudioContext.createBiquadFilter();
+				oscillator.type = 'square';
+				if (kind === 'close') {
+					oscillator.frequency.setValueAtTime(620, start);
+					oscillator.frequency.exponentialRampToValueAtTime(150, start + 0.075);
+				} else {
+					oscillator.frequency.setValueAtTime(880, start);
+					oscillator.frequency.exponentialRampToValueAtTime(kind === 'confirm' ? 520 : 260, start + 0.035);
+				}
+				filter.type = 'bandpass';
+				filter.frequency.setValueAtTime(kind === 'close' ? 1100 : 1600, start);
+				filter.Q.setValueAtTime(1.8, start);
+				gain.gain.setValueAtTime(kind === 'close' ? 0.022 : 0.018, start);
+				gain.gain.exponentialRampToValueAtTime(0.001, start + (kind === 'close' ? 0.09 : 0.05));
+				oscillator.connect(filter);
+				filter.connect(gain);
+				gain.connect(cyberAudioContext.destination);
+				oscillator.start(start);
+				oscillator.stop(start + (kind === 'close' ? 0.095 : 0.055));
+			};
+			['pointerdown', 'keydown'].forEach((eventName) => document.addEventListener(eventName, () => {
+				if (cyberAudioContext?.state === 'suspended') cyberAudioContext.resume();
+			}, { once: true }));
+			document.addEventListener('click', (event) => {
+				const target = event.target.closest ? event.target : event.target.parentElement;
+				if (!target) return;
+				if (target.closest('.modal-close') || target.classList?.contains('project-modal')) {
+					playCyberKeyClick('close');
+					return;
+				}
+				if (target.closest('.card') || target.closest('.button-link') || target.closest('.certification-card') || target.closest('.theme-toggle') || target.closest('.menu a') || target.closest('.navbar .brand') || target.closest('.contact-details a') || target.closest('.home-socials a')) {
+					playCyberKeyClick(target.closest('.card') ? 'confirm' : 'activate');
+				}
+			}, true);
 			const selectSkill = (skill) => {
 				const name = skill.textContent.trim();
 				skillItems.forEach((item) => { const selected = item === skill; item.classList.toggle('is-selected', selected); item.setAttribute('aria-pressed', selected); });
@@ -227,7 +275,15 @@
 				matchingProjects.forEach((card) => { const title = card.querySelector('h2').textContent.trim(); const link = document.createElement('a'); const image = document.createElement('img'); link.className = 'spotlight-project-link'; link.href = '#projects'; image.src = projectImages[title] || ''; image.alt = ''; image.loading = 'lazy'; image.decoding = 'async'; link.append(image, document.createTextNode(title)); link.addEventListener('click', () => card.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' })); spotlightProjects.append(link); });
 				if (!matchingProjects.length) spotlightProjects.innerHTML = '<span class="spotlight-empty">Part of the broader technical foundation.</span>';
 			};
-			skillItems.forEach((skill) => { skill.setAttribute('role', 'button'); skill.setAttribute('tabindex', '0'); skill.setAttribute('aria-pressed', 'false'); skill.addEventListener('click', () => selectSkill(skill)); skill.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectSkill(skill); } }); });
+			skillItems.forEach((skill) => {
+				skill.setAttribute('role', 'button');
+				skill.setAttribute('tabindex', '0');
+				skill.setAttribute('aria-pressed', 'false');
+				skill.addEventListener('pointerenter', () => { playCyberKeyClick(); selectSkill(skill); });
+				skill.addEventListener('focus', () => { playCyberKeyClick(); selectSkill(skill); });
+				skill.addEventListener('click', () => { playCyberKeyClick(); selectSkill(skill); });
+				skill.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); playCyberKeyClick(); selectSkill(skill); } });
+			});
 			const techWall = document.querySelector('.tech-wall');
 			skillItems.forEach((skill, index) => {
 				const cube = document.createElement('button');
@@ -235,8 +291,8 @@
 				const icon = skill.querySelector('i');
 				cube.innerHTML = `<span class="cube-face cube-face--front">${icon ? `<i class="${icon.className}" aria-hidden="true"></i>` : '<i aria-hidden="true">◈</i>'}<span class="cube-label">${skill.textContent.trim()}</span></span><span class="cube-face cube-face--back"></span><span class="cube-face cube-face--top"></span><span class="cube-face cube-face--bottom"></span><span class="cube-face cube-face--left"></span><span class="cube-face cube-face--right"></span>`;
 				const setHologramColor = () => cube.style.setProperty('--holo-color', getComputedStyle(icon || cube.querySelector('.cube-face--front i')).color);
-				cube.addEventListener('mouseenter', () => { setHologramColor(); selectSkill(skill); });
-				cube.addEventListener('focus', () => { setHologramColor(); selectSkill(skill); });
+				cube.addEventListener('mouseenter', () => { playCyberKeyClick(); setHologramColor(); selectSkill(skill); });
+				cube.addEventListener('focus', () => { playCyberKeyClick(); setHologramColor(); selectSkill(skill); });
 				cube.addEventListener('mouseleave', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'HTML') || skillItems[0]));
 				cube.addEventListener('blur', () => selectSkill(skillItems.find((item) => item.textContent.trim() === 'HTML') || skillItems[0]));
 				cube.setAttribute('aria-label', `Preview ${skill.textContent.trim()}`);
@@ -265,7 +321,23 @@
 
 			const updateProgress = () => {
 				const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
-				progressBar.style.transform = `scaleX(${scrollableHeight ? window.scrollY / scrollableHeight : 0})`;
+				const progress = scrollableHeight ? window.scrollY / scrollableHeight : 0;
+				progressBar.style.transform = `scaleX(${progress})`;
+				document.documentElement.style.setProperty('--scroll-progress', progress.toFixed(4));
+
+				const projectsSection = document.querySelector('#projects');
+				if (projectsSection) {
+					const rect = projectsSection.getBoundingClientRect();
+					const sectionProgress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
+					projectsSection.style.setProperty('--section-scroll', sectionProgress.toFixed(4));
+				}
+
+				const skillsSection = document.querySelector('.skills-spotlight');
+				if (skillsSection) {
+					const rect = skillsSection.getBoundingClientRect();
+					const sectionProgress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
+					skillsSection.style.setProperty('--section-scroll', sectionProgress.toFixed(4));
+				}
 			};
 			let scrollFrame = 0;
 			const scheduleScrollUpdate = () => {
@@ -351,7 +423,7 @@
 			if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
 				projectCards.forEach((card) => {
 					let cardBounds;
-					card.addEventListener('pointerenter', () => { cardBounds = card.getBoundingClientRect(); });
+					card.addEventListener('pointerenter', () => { playCyberKeyClick('activate'); cardBounds = card.getBoundingClientRect(); });
 					card.addEventListener('pointermove', (event) => {
 						const bounds = cardBounds || card.getBoundingClientRect();
 						const x = (event.clientX - bounds.left) / bounds.width;
@@ -390,8 +462,9 @@
 			};
 			const renderModalDetails = (title) => { const details = projectDetails[title]; modalDetails.innerHTML = `<p class="modal-role">${details.role}</p><p class="modal-details-label">Project highlights</p><ul>${details.highlights.map((highlight) => `<li>${highlight}</li>`).join('')}</ul>`; };
 			let lastFocusedElement;
-			const closeProjectModal = () => { projectModal.classList.remove('is-open'); projectModal.setAttribute('aria-hidden', 'true'); document.body.classList.remove('modal-open'); lastFocusedElement?.focus(); };
+			const closeProjectModal = () => { playCyberKeyClick('close'); projectModal.classList.remove('is-open'); projectModal.setAttribute('aria-hidden', 'true'); document.body.classList.remove('modal-open'); lastFocusedElement?.focus(); };
 			const openProjectModal = (card, index) => {
+				playCyberKeyClick('confirm');
 				const title = card.querySelector('h2').textContent.trim();
 				const category = card.querySelector('.card-top span:last-child').textContent.trim();
 				modalTitle.textContent = title;
@@ -427,8 +500,8 @@
 			const certificateTitle = certificateModal.querySelector('#certificate-modal-title');
 			const certificatePdf = certificateModal.querySelector('.certificate-pdf');
 			let lastCertificateFocus;
-			const closeCertificateModal = () => { certificateModal.classList.remove('is-open'); certificateModal.setAttribute('aria-hidden', 'true'); certificatePdf.src = ''; document.body.classList.remove('modal-open'); lastCertificateFocus?.focus(); };
-			const openCertificateModal = (card) => { certificateTitle.textContent = card.querySelector('strong').textContent.trim(); certificatePdf.src = `images/certificates/${encodeURIComponent(card.dataset.certificate)}`; lastCertificateFocus = document.activeElement; certificateModal.classList.add('is-open'); certificateModal.setAttribute('aria-hidden', 'false'); document.body.classList.add('modal-open'); certificateModal.querySelector('.modal-close').focus(); };
+			const closeCertificateModal = () => { playCyberKeyClick('close'); certificateModal.classList.remove('is-open'); certificateModal.setAttribute('aria-hidden', 'true'); certificatePdf.src = ''; document.body.classList.remove('modal-open'); lastCertificateFocus?.focus(); };
+			const openCertificateModal = (card) => { playCyberKeyClick('confirm'); certificateTitle.textContent = card.querySelector('strong').textContent.trim(); certificatePdf.src = `images/certificates/${encodeURIComponent(card.dataset.certificate)}`; lastCertificateFocus = document.activeElement; certificateModal.classList.add('is-open'); certificateModal.setAttribute('aria-hidden', 'false'); document.body.classList.add('modal-open'); certificateModal.querySelector('.modal-close').focus(); };
 			document.querySelectorAll('.certification-card').forEach((card) => card.addEventListener('click', () => openCertificateModal(card)));
 			certificateModal.querySelector('.modal-close').addEventListener('click', closeCertificateModal);
 			certificateModal.addEventListener('click', (event) => { if (event.target === certificateModal) closeCertificateModal(); });
